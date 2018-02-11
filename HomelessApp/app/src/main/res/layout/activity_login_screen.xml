@@ -29,22 +29,49 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/username"
+        android:layout_alignStart="@+id/password"
         android:layout_below="@+id/username"
-        android:layout_marginTop="53dp"
+        android:layout_marginTop="50dp"
         android:text="Password:"
         android:textSize="16sp" />
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/textView3"
-        android:layout_below="@+id/textView3"
-        android:layout_marginTop="16dp"
+        android:layout_alignStart="@+id/username"
+        android:layout_below="@+id/username"
+        android:layout_marginTop="75dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Password"
         android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
+        android:text="Login"
+        android:textSize="30sp" />
+
+    <Button
+        android:id="@+id/login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/password"
+        android:layout_marginTop="54dp"
+        android:layout_toEndOf="@+id/textView4"
+        android:text="Login" />
+
+    <Button
+        android:id="@+id/cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/login"
+        android:layout_toStartOf="@+id/textView4"
+        android:text="Cancel" />
 
 </RelativeLayout>
