@@ -28,7 +28,7 @@ public class WelcomeScreenActivity extends AppCompatActivity {
             startActivity(intent);
         });
         register_button.setOnClickListener((view) -> {
-            Intent intent2 = new Intent(WelcomeScreenActivity.this, LoginScreenActivity.class);
+            Intent intent2 = new Intent(WelcomeScreenActivity.this, RegisterScreenActivity.class);
             startActivity(intent2);
         });
     }

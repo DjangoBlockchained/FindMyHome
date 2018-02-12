@@ -34,7 +34,7 @@ public class LoginScreenActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (userName.toString().equals(new String("user")) && password.toString().equals(new String("password"))) {
+                if (userName.getText().toString().equals(new String("user")) && password.getText().toString().equals(new String("password"))) {
                     Intent intent = new Intent(LoginScreenActivity.this, ApplicationScreenActivity.class);
                     startActivity(intent);
                 }

@@ -6,10 +6,9 @@
         android:id="@+id/login_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="127dp"
-        android:layout_marginTop="90dp"
+        android:layout_below="@+id/textView2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="38dp"
         android:text="Login" />
 
     <Button
@@ -18,6 +17,15 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/login_button"
         android:layout_below="@+id/login_button"
-        android:layout_marginTop="21dp"
         android:text="Register" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="29dp"
+        android:text="Welcome"
+        android:textSize="30sp"/>
 </RelativeLayout>
