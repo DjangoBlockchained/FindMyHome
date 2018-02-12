@@ -14,7 +14,7 @@ import com.example.peter.homelessapp.R;
 
 public class ApplicationScreenActivity extends AppCompatActivity {
     private Button logout;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
