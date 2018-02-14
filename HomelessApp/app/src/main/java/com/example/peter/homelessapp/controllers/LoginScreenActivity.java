@@ -1,7 +1,9 @@
 package com.example.peter.homelessapp.controllers;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -37,6 +39,12 @@ public class LoginScreenActivity extends AppCompatActivity {
                 if (userName.getText().toString().equals(new String("user")) && password.getText().toString().equals(new String("password"))) {
                     Intent intent = new Intent(LoginScreenActivity.this, ApplicationScreenActivity.class);
                     startActivity(intent);
+                } else {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(LoginScreenActivity.this);
+                    alert.setMessage("Your username and password do not match with a real user.");
+                    alert.setTitle("Login Error");
+                    alert.setPositiveButton("OK", null);
+                    alert.create().show();
                 }
             }
         });

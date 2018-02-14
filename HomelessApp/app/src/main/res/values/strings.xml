@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">HomelessApp</string>
+    <string name="register">Register</string>
 </resources>
