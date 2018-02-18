@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.peter.homelessapp.R;
+import com.example.peter.homelessapp.model.User;
 
 /**
  * Created by sanjanakadiveti on 2/11/18.
@@ -41,9 +42,20 @@ public class RegisterScreenActivity extends AppCompatActivity {
 
         register = (Button) findViewById(R.id.registerUser);
         register.setOnClickListener((view) -> {
-            if (password1.getText().toString().equals(password2.getText().toString())) {
+            if ((name.getText().length() == 0)
+                    || (username.getText().length() == 0)
+                    || (password1.getText().length() == 0)
+                    || (password2.getText().length() == 0)) {
+                AlertDialog.Builder alert2 = new AlertDialog.Builder(RegisterScreenActivity.this);
+                alert2.setMessage("Cannot register until all fields have been filled!");
+                alert2.setTitle("Registration Error");
+                alert2.setPositiveButton("OK", null);
+                alert2.create().show();
+            } else if (password1.getText().toString().equals(password2.getText().toString())) {
                 if (validUserName(username.getText().toString())) {
-
+                    User newUser = new User(name.getText().toString(), username.getText().toString(), password1.getText().toString());
+                    Intent intent = new Intent(RegisterScreenActivity.this, ApplicationScreenActivity.class);
+                    startActivity(intent);
                 } else {
                     AlertDialog.Builder alert = new AlertDialog.Builder(RegisterScreenActivity.this);
                     alert.setMessage("That user name is already taken. Pick another one!");
@@ -62,6 +74,6 @@ public class RegisterScreenActivity extends AppCompatActivity {
     }
 
     private boolean validUserName(String username) {
-        return false;
+        return User.checkUsername(username);
     }
 }

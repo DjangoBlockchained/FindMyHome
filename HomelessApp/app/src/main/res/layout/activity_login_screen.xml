@@ -43,7 +43,7 @@
         android:layout_below="@+id/username"
         android:layout_marginTop="75dp"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:inputType="textPassword"
         android:text="Password"
         android:textSize="20sp" />
 

@@ -14,6 +14,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.peter.homelessapp.R;
+import com.example.peter.homelessapp.model.User;
 
 /**
  * Created by Peter on 2/11/18.
@@ -36,7 +37,7 @@ public class LoginScreenActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (userName.getText().toString().equals(new String("user")) && password.getText().toString().equals(new String("password"))) {
+                if (User.checkLogin(userName.getText().toString(), password.getText().toString())) {
                     Intent intent = new Intent(LoginScreenActivity.this, ApplicationScreenActivity.class);
                     startActivity(intent);
                 } else {
