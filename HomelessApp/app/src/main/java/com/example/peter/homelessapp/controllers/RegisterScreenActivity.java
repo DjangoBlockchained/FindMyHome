@@ -6,9 +6,11 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.example.peter.homelessapp.R;
+import com.example.peter.homelessapp.model.Administer;
 import com.example.peter.homelessapp.model.User;
 
 /**
@@ -23,6 +25,7 @@ public class RegisterScreenActivity extends AppCompatActivity {
     private EditText username;
     private EditText password1;
     private EditText password2;
+    private CheckBox adminBox;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,6 +36,7 @@ public class RegisterScreenActivity extends AppCompatActivity {
         username = (EditText) findViewById(R.id.regUserName);
         password1 = (EditText) findViewById(R.id.regPass1);
         password2 = (EditText) findViewById(R.id.regPass2);
+        adminBox = (CheckBox) findViewById(R.id.checkBox);
 
         cancel = (Button) findViewById(R.id.cancel2);
         cancel.setOnClickListener((view) -> {
@@ -53,7 +57,11 @@ public class RegisterScreenActivity extends AppCompatActivity {
                 alert2.create().show();
             } else if (password1.getText().toString().equals(password2.getText().toString())) {
                 if (validUserName(username.getText().toString())) {
-                    User newUser = new User(name.getText().toString(), username.getText().toString(), password1.getText().toString());
+                    if (adminBox.isChecked()) {
+                        Administer newUser = new Administer(name.getText().toString(), username.getText().toString(), password1.getText().toString());
+                    } else {
+                        User newUser = new User(name.getText().toString(), username.getText().toString(), password1.getText().toString());
+                    }
                     Intent intent = new Intent(RegisterScreenActivity.this, ApplicationScreenActivity.class);
                     startActivity(intent);
                 } else {

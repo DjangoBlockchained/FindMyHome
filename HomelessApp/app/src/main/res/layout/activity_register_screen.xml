@@ -18,8 +18,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="66dp"
-        android:layout_marginStart="67dp"
+        android:layout_marginBottom="19dp"
+        android:layout_marginStart="65dp"
         android:text="Cancel"
         android:textSize="20sp" />
 
@@ -102,7 +102,6 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/textView9"
         android:layout_below="@+id/textView9"
-        android:layout_marginTop="11dp"
         android:ems="10"
         android:inputType="textPassword" />
 
@@ -112,8 +111,17 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/textView8"
         android:layout_below="@+id/textView8"
-        android:layout_marginTop="11dp"
         android:ems="10"
         android:inputType="textPassword" />
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/regPass2"
+        android:layout_below="@+id/regPass2"
+        android:layout_marginTop="22dp"
+        android:text="Register as Admin"
+        android:textSize="20sp" />
 
 </RelativeLayout>
