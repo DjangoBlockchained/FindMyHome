@@ -4,13 +4,13 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Created by Peter on 2/16/18.
+ * Created by Peter on 2/25/18.
  */
 
-public class Administer extends User implements Parcelable {
+public class HomelessUser extends User implements Parcelable {
     private String _name;
     private String _username;
-    public Administer(String name, String username, String password) {
+    public HomelessUser(String name, String username, String password) {
         _name = name;
         _username = username;
         User.addUser(this, password);
@@ -38,17 +38,17 @@ public class Administer extends User implements Parcelable {
         out.writeString(_username);
     }
 
-    public static final Parcelable.Creator<Administer> CREATOR = new Parcelable.Creator<Administer>() {
-        public Administer createFromParcel(Parcel in) {
-            return new Administer(in);
+    public static final Parcelable.Creator<HomelessUser> CREATOR = new Parcelable.Creator<HomelessUser>() {
+        public HomelessUser createFromParcel(Parcel in) {
+            return new HomelessUser(in);
         }
 
-        public Administer[] newArray(int size) {
-            return new Administer[size];
+        public HomelessUser[] newArray(int size) {
+            return new HomelessUser[size];
         }
     };
 
-    private Administer(Parcel in) {
+    private HomelessUser(Parcel in) {
         _name = in.readString();
         _username = in.readString();
     }

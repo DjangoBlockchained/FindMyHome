@@ -11,6 +11,7 @@ import android.widget.EditText;
 
 import com.example.peter.homelessapp.R;
 import com.example.peter.homelessapp.model.Administer;
+import com.example.peter.homelessapp.model.HomelessUser;
 import com.example.peter.homelessapp.model.User;
 
 /**
@@ -59,11 +60,15 @@ public class RegisterScreenActivity extends AppCompatActivity {
                 if (validUserName(username.getText().toString())) {
                     if (adminBox.isChecked()) {
                         Administer newUser = new Administer(name.getText().toString(), username.getText().toString(), password1.getText().toString());
+                        Intent intent = new Intent(RegisterScreenActivity.this, AdminScreenActivity.class);
+                        intent.putExtra("admin", newUser);
+                        startActivity(intent);
                     } else {
-                        User newUser = new User(name.getText().toString(), username.getText().toString(), password1.getText().toString());
+                        HomelessUser newUser = new HomelessUser(name.getText().toString(), username.getText().toString(), password1.getText().toString());
+                        Intent intent = new Intent(RegisterScreenActivity.this, ApplicationScreenActivity.class);
+                        intent.putExtra("user", newUser);
+                        startActivity(intent);
                     }
-                    Intent intent = new Intent(RegisterScreenActivity.this, ApplicationScreenActivity.class);
-                    startActivity(intent);
                 } else {
                     AlertDialog.Builder alert = new AlertDialog.Builder(RegisterScreenActivity.this);
                     alert.setMessage("That user name is already taken. Pick another one!");

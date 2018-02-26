@@ -14,6 +14,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.peter.homelessapp.R;
+import com.example.peter.homelessapp.model.Administer;
+import com.example.peter.homelessapp.model.HomelessUser;
 import com.example.peter.homelessapp.model.User;
 
 /**
@@ -38,8 +40,17 @@ public class LoginScreenActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (User.checkLogin(userName.getText().toString(), password.getText().toString())) {
-                    Intent intent = new Intent(LoginScreenActivity.this, ApplicationScreenActivity.class);
-                    startActivity(intent);
+                    if (User.getUser(userName.getText().toString()) instanceof Administer) {
+                        System.out.println("I'm an admin!");
+                        Intent intent = new Intent(LoginScreenActivity.this, AdminScreenActivity.class);
+                        intent.putExtra("admin", (Administer) User.getUser(userName.getText().toString()));
+                        startActivity(intent);
+                    } else {
+                        System.out.println("I'm a regular user!");
+                        Intent intent = new Intent(LoginScreenActivity.this, ApplicationScreenActivity.class);
+                        intent.putExtra("user", (HomelessUser) User.getUser(userName.getText().toString()));
+                        startActivity(intent);
+                    }
                 } else {
                     AlertDialog.Builder alert = new AlertDialog.Builder(LoginScreenActivity.this);
                     alert.setMessage("Your username and password do not match with a real user.");
