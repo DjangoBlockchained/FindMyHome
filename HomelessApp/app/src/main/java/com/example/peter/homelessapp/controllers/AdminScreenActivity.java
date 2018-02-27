@@ -8,6 +8,14 @@ import android.widget.Button;
 
 import com.example.peter.homelessapp.R;
 import com.example.peter.homelessapp.model.Administer;
+import com.example.peter.homelessapp.model.Shelter;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 /**
  * Created by Peter on 2/11/18.
@@ -16,6 +24,7 @@ import com.example.peter.homelessapp.model.Administer;
 public class AdminScreenActivity extends AppCompatActivity {
     private Button logout;
     private Administer admin;
+    private Button shelterList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,5 +41,33 @@ public class AdminScreenActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        shelterList = (Button) findViewById(R.id.sheltersList);
+        shelterList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                readShelters();
+                Intent intent2 = new Intent(AdminScreenActivity.this, ShelterListActivity.class);
+                startActivity(intent2);
+            }
+        });
+    }
+    private void readShelters() {
+        SimpleModel model = SimpleModel.INSTANCE;
+        try {
+            InputStream is = getResources().openRawResource(R.raw.shelters);
+
+            BufferedReader br1 = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
+            br1.readLine();
+            String s = br1.readLine();
+            while ((s=br1.readLine()) != null) {
+                String[] tokens = s.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
+                model.addShelter(new Shelter(Integer.parseInt(tokens[0]), tokens[1],
+                        (tokens[2]), tokens[3], (tokens[4]),
+                        (tokens[5]), tokens[6], tokens[7], tokens[8]));
+            }
+            br1.close();
+        } catch (IOException e) {
+            System.out.println("error!");
+        }
     }
 }

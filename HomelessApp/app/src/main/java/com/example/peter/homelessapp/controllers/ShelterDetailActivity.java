@@ -23,7 +23,7 @@ public class ShelterDetailActivity extends AppCompatActivity{
         if (b != null) {
             int unique_id = (Integer) b.get("Unique ID");
             Shelter toShow = Shelter.getShelter(unique_id);
-            String t = "\n" + "\n" + toShow.toString();
+            String t = "\n" + toShow.toString();
             txt.setText(t);
         }
     }
