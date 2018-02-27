@@ -21,4 +21,13 @@
         android:layout_marginTop="176dp"
         android:text="Logout"
         android:textSize="20sp"/>
+
+    <Button
+        android:id="@+id/shelterListButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/logout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="77dp"
+        android:text="Shelters" />
 </RelativeLayout>
