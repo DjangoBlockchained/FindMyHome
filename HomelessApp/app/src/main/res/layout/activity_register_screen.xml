@@ -42,8 +42,7 @@
         android:layout_below="@+id/textView6"
         android:layout_marginTop="9dp"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name" />
+        android:inputType="textPersonName" />
 
     <TextView
         android:id="@+id/textView6"
@@ -73,8 +72,7 @@
         android:layout_below="@+id/textView7"
         android:layout_marginTop="8dp"
         android:ems="10"
-        android:inputType="textMultiLine|textImeMultiLine|textPersonName"
-        android:text="User Name" />
+        android:inputType="textPersonName" />
 
     <TextView
         android:id="@+id/textView8"
