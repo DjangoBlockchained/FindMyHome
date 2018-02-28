@@ -9,6 +9,8 @@ import android.widget.Button;
 import com.example.peter.homelessapp.R;
 import com.example.peter.homelessapp.model.Administer;
 import com.example.peter.homelessapp.model.Shelter;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -52,18 +54,16 @@ public class AdminScreenActivity extends AppCompatActivity {
         });
     }
     private void readShelters() {
-        SimpleModel model = SimpleModel.INSTANCE;
         try {
             InputStream is = getResources().openRawResource(R.raw.shelters);
-
             BufferedReader br1 = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
             br1.readLine();
             String s = br1.readLine();
             while ((s=br1.readLine()) != null) {
                 String[] tokens = s.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
-                model.addShelter(new Shelter(Integer.parseInt(tokens[0]), tokens[1],
+                Shelter newShelter = new Shelter(tokens[0], tokens[1],
                         (tokens[2]), tokens[3], (tokens[4]),
-                        (tokens[5]), tokens[6], tokens[7], tokens[8]));
+                        (tokens[5]), tokens[6], tokens[7], tokens[8]);
             }
             br1.close();
         } catch (IOException e) {

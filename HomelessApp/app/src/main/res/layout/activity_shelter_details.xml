@@ -11,12 +11,9 @@
         android:textColor="@android:color/black"
         android:textSize="20dp" />
 
-    <TextView
-        android:id="@+id/details"
+    <ListView
+        android:id="@+id/shelterdetails"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textColor="@android:color/black"
-        android:textSize="20dp"/>
+        android:layout_height="match_parent" />
 
 </LinearLayout>
