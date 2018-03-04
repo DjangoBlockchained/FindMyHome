@@ -3,8 +3,14 @@
     android:orientation="vertical" android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
+    <Button
+        android:id="@+id/changeSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Search Settings" />
+
     <ListView
         android:id="@+id/shelterList"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="500dp" />
 </LinearLayout>

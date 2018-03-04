@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import com.example.peter.homelessapp.R;
 import com.google.firebase.database.ChildEventListener;
@@ -25,12 +26,14 @@ public class ShelterListActivity extends AppCompatActivity{
 
     private ArrayList<String> names = new ArrayList<>();
     private ArrayAdapter<String> adapter;
+    private Button settings;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shelter_list);
         shelterRef = FirebaseDatabase.getInstance().getReference().child("shelters");
         adapter = new ArrayAdapter(ShelterListActivity.this, android.R.layout.simple_list_item_1, names);
+        settings = (Button) findViewById(R.id.changeSearch);
         list = findViewById(R.id.shelterList);
         shelterRef.addChildEventListener(new ChildEventListener() {
             @Override
@@ -65,6 +68,10 @@ public class ShelterListActivity extends AppCompatActivity{
             String selected = (String) list.getItemAtPosition(position);
             Intent intent = new Intent(ShelterListActivity.this, ShelterDetailActivity.class);
             intent.putExtra("Shelter Name", selected);
+            startActivity(intent);
+        });
+        settings.setOnClickListener((view) -> {
+            Intent intent = new Intent(ShelterListActivity.this, SearchScreenActivity.class);
             startActivity(intent);
         });
     }
