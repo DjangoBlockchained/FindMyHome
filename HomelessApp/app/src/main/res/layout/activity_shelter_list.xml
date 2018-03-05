@@ -7,7 +7,8 @@
         android:id="@+id/changeSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Search Settings" />
+        android:text="Search Settings"
+        android:textAllCaps="false"/>
 
     <ListView
         android:id="@+id/shelterList"

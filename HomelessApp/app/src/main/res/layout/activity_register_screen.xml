@@ -8,39 +8,38 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="31dp"
-        android:text="Register New User"
+        android:layout_marginTop="27dp"
+        android:text="Register"
         android:textSize="30sp" />
 
     <Button
         android:id="@+id/cancel2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="19dp"
-        android:layout_marginStart="65dp"
+        android:layout_alignBaseline="@+id/registerUser"
+        android:layout_alignBottom="@+id/registerUser"
+        android:layout_alignEnd="@+id/textView7"
         android:text="Cancel"
+        android:textAllCaps="false"
         android:textSize="20sp" />
 
     <Button
         android:id="@+id/registerUser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/cancel2"
-        android:layout_alignBottom="@+id/cancel2"
-        android:layout_marginStart="61dp"
-        android:layout_toEndOf="@+id/cancel2"
+        android:layout_below="@+id/checkBox"
+        android:layout_marginTop="13dp"
+        android:layout_toEndOf="@+id/textView9"
         android:text="Register"
+        android:textAllCaps="false"
         android:textSize="20sp" />
 
     <EditText
         android:id="@+id/regName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/cancel2"
         android:layout_below="@+id/textView6"
-        android:layout_marginTop="9dp"
+        android:layout_centerHorizontal="true"
         android:ems="10"
         android:inputType="textPersonName" />
 
@@ -50,7 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/regName"
         android:layout_below="@+id/textView5"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="16dp"
         android:text="Name"
         android:textSize="16sp" />
 

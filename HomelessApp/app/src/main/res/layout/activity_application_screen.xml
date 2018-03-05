@@ -16,18 +16,20 @@
         android:id="@+id/logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/appTitle"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="176dp"
+        android:layout_marginBottom="179dp"
         android:text="Logout"
-        android:textSize="20sp"/>
+        android:textAllCaps="false"
+        android:textSize="20sp" />
 
     <Button
         android:id="@+id/shelterListButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/logout"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="77dp"
-        android:text="Shelters" />
+        android:layout_centerVertical="true"
+        android:text="Shelters"
+        android:textAllCaps="false"
+        android:textSize="20sp" />
 </RelativeLayout>

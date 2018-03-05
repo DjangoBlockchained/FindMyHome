@@ -53,28 +53,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="All Shelters (Default)" />
+            android:text="N/A" />
 
         <RadioButton
             android:id="@+id/genderMale"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Male Only" />
+            android:text="Male" />
 
         <RadioButton
             android:id="@+id/genderFemale"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Female Only" />
+            android:text="Female" />
 
         <RadioButton
             android:id="@+id/genderAny"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Any Gender" />
+            android:text="Co-Ed" />
     </RadioGroup>
 
     <TextView
@@ -99,7 +99,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="All Shelters (Default)" />
+            android:text="N/A" />
 
         <RadioButton
             android:id="@+id/ageNewborn"
@@ -138,6 +138,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="9dp"
         android:text="Apply Settings"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:textAllCaps="false"/>
 
 </RelativeLayout>

@@ -36,11 +36,11 @@ public class SearchScreenActivity extends AppCompatActivity {
 
         if (getIntent().getStringExtra("gender") != null) {
             String gender = getIntent().getStringExtra("gender");
-            if (gender.equals("male")) {
+            if (gender.equals("Men")) {
                 genderGroup.check(R.id.genderMale);
-            } else if (gender.equals("female")) {
+            } else if (gender.equals("Women")) {
                 genderGroup.check(R.id.genderFemale);
-            } else if (gender.equals("any")) {
+            } else if (gender.equals("Any")) {
                 genderGroup.check(R.id.genderAny);
             } else {
                 genderGroup.check(R.id.genderDefault);

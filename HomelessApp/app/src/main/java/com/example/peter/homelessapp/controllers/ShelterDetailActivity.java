@@ -25,6 +25,9 @@ public class ShelterDetailActivity extends AppCompatActivity{
 
     private ArrayList<String> details = new ArrayList<>();
     private ArrayAdapter<String> adapter;
+    private String searchName;
+    private String searchAge;
+    private String searchGender;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

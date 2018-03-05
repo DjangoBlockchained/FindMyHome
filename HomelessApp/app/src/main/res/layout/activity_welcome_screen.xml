@@ -9,7 +9,8 @@
         android:layout_below="@+id/textView2"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="38dp"
-        android:text="Login" />
+        android:text="Login"
+        android:textAllCaps="false"/>
 
     <Button
         android:id="@+id/register_button"
@@ -17,7 +18,8 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/login_button"
         android:layout_below="@+id/login_button"
-        android:text="Register" />
+        android:text="Register"
+        android:textAllCaps="false"/>
 
     <TextView
         android:id="@+id/textView2"
