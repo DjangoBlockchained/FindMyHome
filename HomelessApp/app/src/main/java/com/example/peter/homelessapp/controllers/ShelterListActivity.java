@@ -97,21 +97,21 @@ public class ShelterListActivity extends AppCompatActivity{
                 String restriction = string.get("restrictions").toString();
                 String dbname = string.get("name").toString();
                 if (gender.equals("Any")) {
-                    if (dbname.contains(name)
-                            && ((!(restriction.contains("Men") || (restriction.contains("Women")))) || (restriction.contains("Anyone")))
-                            && ((restriction.contains(age)) || (restriction.contains("Anyone")))) {
+                    if (dbname.toLowerCase().contains(name.toLowerCase())
+                            && (((!(restriction.contains("Men") || (restriction.contains("Women")))) || (restriction.contains("Anyone")))
+                            && ((restriction.contains(age)) || (restriction.contains("Anyone"))))) {
                         names.add(string.get("name").toString());
                         adapter.notifyDataSetChanged();
                     }
                 } else if (!gender.equals("")) {
-                    if (dbname.contains(name)
-                            && ((!restriction.contains(gender)) || (restriction.contains("Anyone")))
-                            && ((restriction.contains(age)) || (restriction.contains("Anyone")))) {
+                    if (dbname.toLowerCase().contains(name.toLowerCase())
+                            && (((!restriction.contains(gender)) || (restriction.contains("Anyone")))
+                            && ((restriction.contains(age)) || (restriction.contains("Anyone"))))) {
                         names.add(string.get("name").toString());
                         adapter.notifyDataSetChanged();
                     }
                 } else {
-                    if (dbname.contains(name) && (restriction.contains(age)) || (restriction.contains("Anyone"))) {
+                    if (dbname.toLowerCase().contains(name.toLowerCase()) && ((restriction.contains(age)) || (restriction.contains("Anyone")))) {
                         names.add(string.get("name").toString());
                         adapter.notifyDataSetChanged();
                     }

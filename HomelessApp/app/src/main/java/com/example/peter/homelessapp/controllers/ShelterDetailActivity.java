@@ -47,7 +47,9 @@ public class ShelterDetailActivity extends AppCompatActivity{
         shelterRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
                 Object data =  dataSnapshot.getValue();
+
                 details.add(dataSnapshot.getKey()+ ": "+ data);
                 adapter.notifyDataSetChanged();
             }
