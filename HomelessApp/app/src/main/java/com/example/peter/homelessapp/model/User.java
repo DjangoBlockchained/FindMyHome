@@ -12,6 +12,7 @@ public abstract class User {
     private static Map<String, User> _userMap = new HashMap<>();
     private String _name;
     private String _username;
+    private Shelter _currentShelter;
 
     public String getName() {
         return _name;
@@ -39,8 +40,25 @@ public abstract class User {
         return _userMap.get(uname);
     }
 
+    public Shelter getCurrentShelter() { return _currentShelter; }
+    protected void setCurrentShelter(Shelter currentShelter) { _currentShelter = currentShelter; }
+
     public static void addUser(User in, String password) {
         _userMap.put(in.getUsername(), in);
         _passwordMap.put(in.getUsername(), password);
+    }
+
+    @Override
+    public int hashCode() {
+        return _username.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) { return true; }
+        if (null == other) { return false; }
+        if (!(other instanceof User)) { return false; }
+        User that = (User) other;
+        return this._username.equals(that._username);
     }
 }

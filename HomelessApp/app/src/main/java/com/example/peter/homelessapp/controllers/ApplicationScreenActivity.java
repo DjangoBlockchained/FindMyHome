@@ -19,7 +19,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 
-
 /**
  * Created by Peter on 2/11/18.
  */
@@ -61,9 +60,10 @@ public class ApplicationScreenActivity extends AppCompatActivity {
             String s = br1.readLine();
             while ((s=br1.readLine()) != null) {
                 String[] tokens = s.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
+                Integer capacity = Shelter.parseCapacity(tokens[2]);
                 Shelter newShelter = new Shelter(tokens[0], tokens[1],
-                        (tokens[2]), tokens[3], (tokens[4]),
-                        (tokens[5]), tokens[6], tokens[7], tokens[8]);
+                        capacity, tokens[3], Double.parseDouble(tokens[4]),
+                        Double.parseDouble(tokens[5]), tokens[6], tokens[7], tokens[8]);
             }
             br1.close();
         } catch (IOException e) {
