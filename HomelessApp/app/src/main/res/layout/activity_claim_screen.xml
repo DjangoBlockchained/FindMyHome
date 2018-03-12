@@ -7,22 +7,23 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="How many spots do you want to claim?"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         tools:text="How many spots do you want to claim?" />
 
-    <EditText
-        android:id="@+id/claimnum"
+    <NumberPicker
+        android:id="@+id/np"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName" />
+        android:layout_below="@id/tv" />
 
     <Button
         android:id="@+id/claim"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Claim" />
+
 </LinearLayout>
