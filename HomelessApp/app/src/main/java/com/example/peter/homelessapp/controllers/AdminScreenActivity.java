@@ -25,6 +25,7 @@ import java.util.List;
 
 public class AdminScreenActivity extends AppCompatActivity {
     private Button logout;
+    private String username;
     private Administer admin;
     private Button shelterList;
 
@@ -32,8 +33,8 @@ public class AdminScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_screen);
-
-        admin = (Administer) getIntent().getParcelableExtra("admin");
+        username = getIntent().getStringExtra("username");
+        //admin = (Administer) getIntent().getParcelableExtra("admin");
 
         logout = (Button) findViewById(R.id.adminLogout);
         logout.setOnClickListener(new View.OnClickListener() {
@@ -49,6 +50,7 @@ public class AdminScreenActivity extends AppCompatActivity {
             public void onClick(View view) {
                 readShelters();
                 Intent intent2 = new Intent(AdminScreenActivity.this, ShelterListActivity.class);
+                intent2.putExtra("username", username);
                 startActivity(intent2);
             }
         });
@@ -61,9 +63,10 @@ public class AdminScreenActivity extends AppCompatActivity {
             String s = br1.readLine();
             while ((s=br1.readLine()) != null) {
                 String[] tokens = s.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
+                Integer capacity = Shelter.parseCapacity(tokens[2]);
                 Shelter newShelter = new Shelter(tokens[0], tokens[1],
-                        (tokens[2]), tokens[3], (tokens[4]),
-                        (tokens[5]), tokens[6], tokens[7], tokens[8]);
+                        capacity, tokens[3], Double.parseDouble(tokens[4]),
+                        Double.parseDouble(tokens[5]), tokens[6], tokens[7], tokens[8]);
             }
             br1.close();
         } catch (IOException e) {

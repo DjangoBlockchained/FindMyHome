@@ -19,22 +19,22 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 
-
 /**
  * Created by Peter on 2/11/18.
  */
 
 public class ApplicationScreenActivity extends AppCompatActivity {
     private Button logout;
-    private HomelessUser user;
+    private String username;
+    //private HomelessUser user;
     private Button shelterList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_application_screen);
 
-
-        user = (HomelessUser) getIntent().getParcelableExtra("user");
+        username = getIntent().getStringExtra("username");
+        //user = (HomelessUser) getIntent().getParcelableExtra("user");
         logout = (Button) findViewById(R.id.logout);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,8 +47,9 @@ public class ApplicationScreenActivity extends AppCompatActivity {
         shelterList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                readShelters();
+                // readShelters();
                 Intent intent2 = new Intent(ApplicationScreenActivity.this, ShelterListActivity.class);
+                intent2.putExtra("username", username);
                 startActivity(intent2);
             }
         });
@@ -61,9 +62,10 @@ public class ApplicationScreenActivity extends AppCompatActivity {
             String s = br1.readLine();
             while ((s=br1.readLine()) != null) {
                 String[] tokens = s.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
+                Integer capacity = Shelter.parseCapacity(tokens[2]);
                 Shelter newShelter = new Shelter(tokens[0], tokens[1],
-                        (tokens[2]), tokens[3], (tokens[4]),
-                        (tokens[5]), tokens[6], tokens[7], tokens[8]);
+                        capacity, tokens[3], Double.parseDouble(tokens[4]),
+                        Double.parseDouble(tokens[5]), tokens[6], tokens[7], tokens[8]);
             }
             br1.close();
         } catch (IOException e) {

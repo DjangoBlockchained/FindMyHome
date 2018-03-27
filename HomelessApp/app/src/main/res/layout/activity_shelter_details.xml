@@ -3,6 +3,12 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <Button
+        android:id="@+id/claimbutton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Claim a Spot" />
+
     <TextView
         android:id="@+id/textView11"
         android:layout_width="match_parent"

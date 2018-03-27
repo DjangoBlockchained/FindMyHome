@@ -3,29 +3,23 @@ package com.example.peter.homelessapp.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 /**
  * Created by Peter on 2/16/18.
  */
 
 public class Administer extends User implements Parcelable {
-    private String _name;
-    private String _username;
+    private static FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private static DatabaseReference dbRef = database.getReference().child("users");
+
     public Administer(String name, String username, String password) {
-        _name = name;
-        _username = username;
+        super(name, username);
         User.addUser(this, password);
-    }
-    public String getName() {
-        return _name;
-    }
-    public String getUsername() {
-        return _username;
-    }
-    public void setName(String name) {
-        _name = name;
-    }
-    public void setUserName(String name) {
-        _username = name;
+        dbRef.child(username).child("name").setValue(name);
+        dbRef.child(username).child("password").setValue(password);
+        dbRef.child(username).child("type").setValue("administer");
     }
 
     @Override
@@ -34,8 +28,8 @@ public class Administer extends User implements Parcelable {
     }
     @Override
     public void writeToParcel(Parcel out, int flags) {
-        out.writeString(_name);
-        out.writeString(_username);
+        out.writeString(getName());
+        out.writeString(getUsername());
     }
 
     public static final Parcelable.Creator<Administer> CREATOR = new Parcelable.Creator<Administer>() {
@@ -49,7 +43,6 @@ public class Administer extends User implements Parcelable {
     };
 
     private Administer(Parcel in) {
-        _name = in.readString();
-        _username = in.readString();
+        super(in.readString(), in.readString());
     }
 }

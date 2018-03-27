@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_claim_screen"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="How many spots do you want to claim?"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        tools:text="How many spots do you want to claim?" />
+
+    <NumberPicker
+        android:id="@+id/np"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv" />
+
+    <Button
+        android:id="@+id/claim"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Claim" />
+
+</LinearLayout>
