@@ -38,6 +38,12 @@ public class ClaimScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_claim_screen);
 
+        final TextView tv = (TextView) findViewById(R.id.tv);
+        NumberPicker np = (NumberPicker) findViewById(R.id.np);
+
+        np.setMinValue(1);
+        np.setMaxValue(10);
+
         User user = getIntent().getParcelableExtra("user");
         currentUser = (HomelessUser) User.getUser(user.getUsername());
 
@@ -60,22 +66,11 @@ public class ClaimScreenActivity extends AppCompatActivity {
             }
         });
 
-        bedsPicker = (EditText) findViewById(R.id.claimnum);
+        // bedsPicker = (EditText) findViewById(R.id.claimnum);
 
         claimButton = (Button) findViewById(R.id.claim);
         claimButton.setOnClickListener((view) -> {
-            int beds;
-            try {
-                beds = Integer.parseInt(bedsPicker.getText().toString());
-            } catch (Exception ex) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Please Enter a Valid Number.");
-                builder.setPositiveButton("OK", (dialog, id) -> {
-                    dialog.dismiss();
-                });
-                builder.create().show();
-                return;
-            }
+            int beds = np.getValue();
 
             if (!shelter.hasVacancy(beds)) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -114,11 +109,5 @@ public class ClaimScreenActivity extends AppCompatActivity {
     private void checkIn(int beds) {
         shelter.checkIn(currentUser, beds);
         finish();
-        final TextView tv = (TextView) findViewById(R.id.tv);
-        NumberPicker np = (NumberPicker) findViewById(R.id.np);
-
-        np.setMinValue(1);
-        np.setMaxValue(10);
-
     }
 }
