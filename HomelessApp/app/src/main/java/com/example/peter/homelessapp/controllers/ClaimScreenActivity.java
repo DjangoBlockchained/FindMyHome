@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.NumberPicker;
 import android.widget.NumberPicker;
 
 import com.example.peter.homelessapp.R;
@@ -112,5 +114,11 @@ public class ClaimScreenActivity extends AppCompatActivity {
     private void checkIn(int beds) {
         shelter.checkIn(currentUser, beds);
         finish();
+        final TextView tv = (TextView) findViewById(R.id.tv);
+        NumberPicker np = (NumberPicker) findViewById(R.id.np);
+
+        np.setMinValue(1);
+        np.setMaxValue(10);
+
     }
 }
