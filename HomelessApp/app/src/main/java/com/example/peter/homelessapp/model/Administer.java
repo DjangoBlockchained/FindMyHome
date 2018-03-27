@@ -8,24 +8,10 @@ import android.os.Parcelable;
  */
 
 public class Administer extends User implements Parcelable {
-    private String _name;
-    private String _username;
+
     public Administer(String name, String username, String password) {
-        _name = name;
-        _username = username;
+        super(name, username);
         User.addUser(this, password);
-    }
-    public String getName() {
-        return _name;
-    }
-    public String getUsername() {
-        return _username;
-    }
-    public void setName(String name) {
-        _name = name;
-    }
-    public void setUserName(String name) {
-        _username = name;
     }
 
     @Override
@@ -34,8 +20,8 @@ public class Administer extends User implements Parcelable {
     }
     @Override
     public void writeToParcel(Parcel out, int flags) {
-        out.writeString(_name);
-        out.writeString(_username);
+        out.writeString(getName());
+        out.writeString(getUsername());
     }
 
     public static final Parcelable.Creator<Administer> CREATOR = new Parcelable.Creator<Administer>() {
@@ -49,7 +35,6 @@ public class Administer extends User implements Parcelable {
     };
 
     private Administer(Parcel in) {
-        _name = in.readString();
-        _username = in.readString();
+        super(in.readString(), in.readString());
     }
 }

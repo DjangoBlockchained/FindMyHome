@@ -48,6 +48,7 @@ public class ApplicationScreenActivity extends AppCompatActivity {
             public void onClick(View view) {
                 readShelters();
                 Intent intent2 = new Intent(ApplicationScreenActivity.this, ShelterListActivity.class);
+                intent2.putExtra("user", user);
                 startActivity(intent2);
             }
         });

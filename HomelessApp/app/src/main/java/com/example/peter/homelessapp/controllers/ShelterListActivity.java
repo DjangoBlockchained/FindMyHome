@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import com.example.peter.homelessapp.R;
+import com.example.peter.homelessapp.model.HomelessUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,6 +32,7 @@ public class ShelterListActivity extends AppCompatActivity{
     private String searchAge;
     private String searchGender;
     private String genderAvoid;
+    private HomelessUser currentUser;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +41,7 @@ public class ShelterListActivity extends AppCompatActivity{
         adapter = new ArrayAdapter(ShelterListActivity.this, android.R.layout.simple_list_item_1, names);
         settings = (Button) findViewById(R.id.changeSearch);
         list = findViewById(R.id.shelterList);
+        currentUser = getIntent().getParcelableExtra("user");
         searchName = getIntent().getStringExtra("name");
         int genderID = getIntent().getIntExtra("gender", -100);
         if (genderID == R.id.genderMale) {
@@ -142,6 +145,7 @@ public class ShelterListActivity extends AppCompatActivity{
         list.setOnItemClickListener((parent, view, position, id) -> {
             String selected = (String) list.getItemAtPosition(position);
             Intent intent = new Intent(ShelterListActivity.this, ShelterDetailActivity.class);
+            intent.putExtra("user", currentUser);
             intent.putExtra("Shelter Name", selected);
             startActivity(intent);
         });
@@ -179,6 +183,7 @@ public class ShelterListActivity extends AppCompatActivity{
         list.setOnItemClickListener((parent, view, position, id) -> {
             String selected = (String) list.getItemAtPosition(position);
             Intent intent = new Intent(ShelterListActivity.this, ShelterDetailActivity.class);
+            intent.putExtra("user", currentUser);
             intent.putExtra("Shelter Name", selected);
             startActivity(intent);
         });

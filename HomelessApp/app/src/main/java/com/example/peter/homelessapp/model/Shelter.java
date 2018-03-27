@@ -25,9 +25,9 @@ public class Shelter {
     private String special_notes;
     private String number;
     /**
-     * Maps users to the number of beds they occupy.
+     * Maps usernames to the number of beds they occupy.
      */
-    private HashMap<User, Integer> checkedInUsers;
+    private HashMap<String, Integer> checkedInUsers = new HashMap<>();
     private int occupiedBeds;
     public Shelter() {
         // Default constructor required for DataSnapshot.getValue(Shelter.class);
@@ -94,8 +94,46 @@ public class Shelter {
         return number;
     }
 
+    public void setUnique_id(String unique_id) {
+        this.unique_id = unique_id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCapacity(Integer capacity) {
+        this.capacity = capacity;
+    }
+
+    public void setRestrictions(String restrictions) {
+        this.restrictions = restrictions;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setSpecial_notes(String special_notes) {
+        this.special_notes = special_notes;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
 
     public int getNumberOfVacancies() {
+        android.util.Log.d("tag", "" + capacity);
+        android.util.Log.d("tag", "" + occupiedBeds);
         return capacity - occupiedBeds;
     }
 
@@ -111,20 +149,25 @@ public class Shelter {
         if (!hasVacancy(beds) || user.getCurrentShelter() != null) {
             return false;
         }
-        checkedInUsers.put(user, beds);
+        checkedInUsers.put(user.getUsername(), beds);
         occupiedBeds += beds;
         user.setCurrentShelter(this);
+        shelterRef.child("shelters").child(name).child("checkedInUsers").setValue(checkedInUsers);
+        shelterRef.child("shelters").child(name).child("occupiedBeds").setValue(occupiedBeds);
         return true;
     }
 
     public boolean checkOut(User user) {
-        if (checkedInUsers.get(user) == null) {
+        String username = user.getUsername();
+        if (checkedInUsers.get(username) == null) {
             return false;
         }
-        int beds = checkedInUsers.get(user);
+        int beds = checkedInUsers.get(username);
         checkedInUsers.remove(user);
         occupiedBeds -= beds;
         user.setCurrentShelter(null);
+        shelterRef.child("shelters").child(name).child("checkedInUsers").setValue(checkedInUsers);
+        shelterRef.child("shelters").child(name).child("occupiedBeds").setValue(occupiedBeds);
         return true;
     }
 
@@ -138,7 +181,7 @@ public class Shelter {
         if (s.isEmpty()) {
             return 0;
         }
-        Integer capacity;
+        Integer capacity = 0;
         try {
             capacity = Integer.parseInt(s);
         } catch (Exception ex) {
@@ -153,6 +196,7 @@ public class Shelter {
             String[] tokens = substring.split(" ");
             capacity = Integer.parseInt(tokens[0]);
         }
+        android.util.Log.d("tag", "parseCapacity: " + s + ", " + capacity);
         return capacity;
     }
 }

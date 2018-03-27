@@ -14,6 +14,11 @@ public abstract class User {
     private String _username;
     private Shelter _currentShelter;
 
+    public User(String name, String username) {
+        _name = name;
+        _username = username;
+    }
+
     public String getName() {
         return _name;
     }
@@ -41,7 +46,9 @@ public abstract class User {
     }
 
     public Shelter getCurrentShelter() { return _currentShelter; }
-    protected void setCurrentShelter(Shelter currentShelter) { _currentShelter = currentShelter; }
+    protected void setCurrentShelter(Shelter currentShelter) {
+        _currentShelter = currentShelter;
+    }
 
     public static void addUser(User in, String password) {
         _userMap.put(in.getUsername(), in);
