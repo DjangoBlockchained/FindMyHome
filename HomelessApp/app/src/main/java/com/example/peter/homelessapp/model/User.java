@@ -1,5 +1,8 @@
 package com.example.peter.homelessapp.model;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,8 +15,13 @@ public abstract class User {
     private static Map<String, User> _userMap = new HashMap<>();
     private String _name;
     private String _username;
-    private Shelter _currentShelter;
+    // The name of the current shelter
+    private String _currentShelter;
+    private static FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private static DatabaseReference dbRef = database.getReference().child("users");
+    public User(){
 
+    }
     public User(String name, String username) {
         _name = name;
         _username = username;
@@ -28,7 +36,7 @@ public abstract class User {
     public void setName(String name) {
         _name = name;
     }
-    public void setUserName(String name) {
+    public void setUsername(String name) {
         _username = name;
     }
     public static boolean checkUsername(String uname) {
@@ -45,8 +53,8 @@ public abstract class User {
         return _userMap.get(uname);
     }
 
-    public Shelter getCurrentShelter() { return _currentShelter; }
-    protected void setCurrentShelter(Shelter currentShelter) {
+    public String getCurrentShelter() { return _currentShelter; }
+    protected void setCurrentShelter(String currentShelter) {
         _currentShelter = currentShelter;
     }
 
