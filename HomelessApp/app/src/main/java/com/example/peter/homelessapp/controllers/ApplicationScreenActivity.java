@@ -28,6 +28,7 @@ public class ApplicationScreenActivity extends AppCompatActivity {
     private String username;
     //private HomelessUser user;
     private Button shelterList;
+    private Button mapView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +50,16 @@ public class ApplicationScreenActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // readShelters();
                 Intent intent2 = new Intent(ApplicationScreenActivity.this, ShelterListActivity.class);
+                intent2.putExtra("username", username);
+                startActivity(intent2);
+            }
+        });
+
+        mapView = (Button) findViewById(R.id.mapViewButton);
+        mapView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent2 = new Intent(ApplicationScreenActivity.this, MapsActivity.class);
                 intent2.putExtra("username", username);
                 startActivity(intent2);
             }
