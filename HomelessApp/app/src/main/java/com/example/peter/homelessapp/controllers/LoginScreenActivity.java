@@ -57,10 +57,12 @@ public class LoginScreenActivity extends AppCompatActivity {
                                     Intent intent = new Intent(LoginScreenActivity.this, AdminScreenActivity.class);
                                     intent.putExtra("username", uname);
                                     startActivity(intent);
+                                    finish();
                                 } else {
                                     Intent intent = new Intent(LoginScreenActivity.this, ApplicationScreenActivity.class);
                                     intent.putExtra("username", uname);
                                     startActivity(intent);
+                                    finish();
                                 }
                             } else {
                                 AlertDialog.Builder alert = new AlertDialog.Builder(LoginScreenActivity.this);
