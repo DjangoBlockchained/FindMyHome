@@ -53,11 +53,11 @@ public class SearchScreenActivity extends AppCompatActivity {
             String age = getIntent().getStringExtra("age");
             if (age.equals("newborn")) {
                 ageGroup.check(R.id.ageNewborn);
-            } else if (age.equals("children")) {
+            } else if (age.equals("Children")) {
                 ageGroup.check(R.id.ageChildren);
-            } else if (age.equals("ya")) {
+            } else if (age.equals("Young adults")) {
                 ageGroup.check(R.id.ageYA);
-            } else if (age.equals("any")) {
+            } else if (age.equals("Any")) {
                 ageGroup.check(R.id.ageAny);
             } else {
                 ageGroup.check(R.id.ageDefault);
@@ -67,7 +67,12 @@ public class SearchScreenActivity extends AppCompatActivity {
         }
 
         submit.setOnClickListener((view) -> {
-            Intent intent = new Intent(SearchScreenActivity.this, ShelterListActivity.class);
+            Intent intent;
+            if (getIntent().getStringExtra("fromMap") != null) {
+                intent = new Intent(SearchScreenActivity.this, MapsActivity.class);
+            } else {
+                intent = new Intent(SearchScreenActivity.this, ShelterListActivity.class);
+            }
             intent.putExtra("name", name.getText().toString());
             intent.putExtra("gender", genderGroup.getCheckedRadioButtonId());
             intent.putExtra("age", ageGroup.getCheckedRadioButtonId());
