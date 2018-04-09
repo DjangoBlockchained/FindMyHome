@@ -1,64 +1,124 @@
 package com.example.peter.homelessapp.model;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Peter on 2/16/18.
+ * User class
  */
-
 public abstract class User {
-    private static Map<String, String> _passwordMap = new HashMap<>();
-    private static Map<String, User> _userMap = new HashMap<>();
+    private static final Map<String, String> _passwordMap = new HashMap<>();
+    private static final Map<String, User> _userMap = new HashMap<>();
     private String _name;
     private String _username;
     // The name of the current shelter
     private String _currentShelter;
-    private static FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private static DatabaseReference dbRef = database.getReference().child("users");
-    public User(){
 
+    /**
+     * Default user constructor
+     */
+    User(){
     }
-    public User(String name, String username) {
+
+    /**
+     * Creates instance of User class
+     * @param name String name of user
+     * @param username String user name of user
+     */
+    User(String name, String username) {
         _name = name;
         _username = username;
     }
 
-    public String getName() {
+    /**
+     * Gets name of user
+     * @return String name of user
+     */
+    String getName() {
         return _name;
     }
+
+    /**
+     * Gets user name of user
+     * @return String user name
+     */
     public String getUsername() {
         return _username;
     }
+
+    /**
+     * Sets name of user
+     * @param name String name to set
+     */
     public void setName(String name) {
         _name = name;
     }
+
+    /**
+     * Sets user name of user
+     * @param name String user name to set
+     */
     public void setUsername(String name) {
         _username = name;
     }
-    public static boolean checkUsername(String uname) {
-        return !(_passwordMap.containsKey(uname));
-    }
-    public static boolean checkLogin(String username, String pass) {
-        if (_passwordMap.containsKey(username) && (_passwordMap.get(username).equals(pass))) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    public static User getUser(String uname) {
-        return _userMap.get(uname);
+
+    /**
+     * Checks if a user name is in our user map or not
+     * @param userName String user name to check
+     * @return True if the user is in the password map, false otherwise
+     */
+    public static boolean checkUsername(String userName) {
+        return !(_passwordMap.containsKey(userName));
     }
 
+//    /**
+//     * Checks if a user name and password match the records
+//     * @param username String user name to check
+//     * @param pass String password to check
+//     * @return True if the user name and password match, false otherwise
+//     */
+//    public static boolean checkLogin(String username, String pass) {
+//        if (_passwordMap.containsKey(username)) {
+//            String password = _passwordMap.get(username);
+//            return password.equals(pass);
+//        }
+//        return false;
+//    }
+
+    /**
+     * Returns an instance of the User class corresponding to a user name
+     * @param userName User name to find the user of
+     * @return instance of the User class with matching user name
+     */
+    public static User getUser(String userName) {
+        return _userMap.get(userName);
+    }
+
+    /**
+     * Gets the shelter the user is currently staying at
+     * @return instance of Shelter class the user is staying at
+     */
     public String getCurrentShelter() { return _currentShelter; }
-    protected void setCurrentShelter(String currentShelter) {
-        _currentShelter = currentShelter;
+
+    /**
+     * Sets the User's current shelter to null.
+     */
+    void checkOut() {
+        _currentShelter = "";
     }
 
-    public static void addUser(User in, String password) {
+    boolean checkIn(String currentShelter) {
+        if (!"".equals(_currentShelter)) { return false; }
+        _currentShelter = currentShelter;
+        return true;
+    }
+
+    /**
+     * Adds user to static maps
+     * @param in Instance of User class to add
+     * @param password String password to add to map
+     */
+    static void addUser(User in, String password) {
         _userMap.put(in.getUsername(), in);
         _passwordMap.put(in.getUsername(), password);
     }
