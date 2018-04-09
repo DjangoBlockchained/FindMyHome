@@ -40,16 +40,14 @@ public class ClaimScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_claim_screen);
 
-        final TextView tv = (TextView) findViewById(R.id.tv);
-        NumberPicker np = (NumberPicker) findViewById(R.id.np);
+        final TextView tv = findViewById(R.id.tv);
+        NumberPicker np = findViewById(R.id.np);
 
         np.setMinValue(1);
         np.setMaxValue(10);
 
-        User user = getIntent().getParcelableExtra("user");
-        currentUser = (HomelessUser) User.getUser(user.getUsername());
-        final TextView tv = (TextView) findViewById(R.id.tv);
-        NumberPicker np = (NumberPicker) findViewById(R.id.np);
+        // User user = getIntent().getParcelableExtra("user");
+        // currentUser = (HomelessUser) User.getUser(user.getUsername());
 
         np.setMinValue(1);
         np.setMaxValue(10);
@@ -85,7 +83,7 @@ public class ClaimScreenActivity extends AppCompatActivity {
 
         // bedsPicker = (EditText) findViewById(R.id.claimnum);
 
-        claimButton = (Button) findViewById(R.id.claim);
+        claimButton = findViewById(R.id.claim);
         claimButton.setOnClickListener((view) -> {
             int beds = np.getValue();
 

@@ -40,7 +40,7 @@ public class ShelterListActivity extends AppCompatActivity{
         setContentView(R.layout.activity_shelter_list);
         shelterRef = FirebaseDatabase.getInstance().getReference().child("shelters");
         adapter = new ArrayAdapter(ShelterListActivity.this, android.R.layout.simple_list_item_1, names);
-        settings = (Button) findViewById(R.id.changeSearch);
+        settings = findViewById(R.id.changeSearch);
         list = findViewById(R.id.shelterList);
         username = getIntent().getStringExtra("username");
         searchName = getIntent().getStringExtra("name");

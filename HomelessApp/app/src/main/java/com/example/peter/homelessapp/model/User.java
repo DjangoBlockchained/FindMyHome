@@ -43,11 +43,7 @@ public abstract class User {
         return !(_passwordMap.containsKey(uname));
     }
     public static boolean checkLogin(String username, String pass) {
-        if (_passwordMap.containsKey(username) && (_passwordMap.get(username).equals(pass))) {
-            return true;
-        } else {
-            return false;
-        }
+        return _passwordMap.containsKey(username) && (_passwordMap.get(username).equals(pass));
     }
     public static User getUser(String uname) {
         return _userMap.get(uname);
