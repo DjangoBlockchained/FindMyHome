@@ -36,7 +36,7 @@ public class AdminScreenActivity extends AppCompatActivity {
         username = getIntent().getStringExtra("username");
         //admin = (Administer) getIntent().getParcelableExtra("admin");
 
-        logout = (Button) findViewById(R.id.adminLogout);
+        logout = findViewById(R.id.adminLogout);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -45,7 +45,7 @@ public class AdminScreenActivity extends AppCompatActivity {
                 finish();
             }
         });
-        shelterList = (Button) findViewById(R.id.sheltersList);
+        shelterList = findViewById(R.id.sheltersList);
         shelterList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

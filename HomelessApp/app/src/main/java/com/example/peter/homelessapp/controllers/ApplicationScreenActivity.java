@@ -36,14 +36,14 @@ public class ApplicationScreenActivity extends AppCompatActivity {
 
         username = getIntent().getStringExtra("username");
         //user = (HomelessUser) getIntent().getParcelableExtra("user");
-        logout = (Button) findViewById(R.id.logout);
+        logout = findViewById(R.id.logout);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
-        shelterList = (Button) findViewById(R.id.shelterListButton);
+        shelterList = findViewById(R.id.shelterListButton);
         shelterList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -54,7 +54,7 @@ public class ApplicationScreenActivity extends AppCompatActivity {
             }
         });
 
-        mapView = (Button) findViewById(R.id.mapViewButton);
+        mapView = findViewById(R.id.mapViewButton);
         mapView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -1,6 +1,5 @@
 package com.example.peter.homelessapp.model;
 
-
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import java.util.HashMap;
@@ -8,12 +7,12 @@ import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
 /**
- * Created by sanjanakadiveti on 2/26/18.
+ * Shelter class
  */
-
+@SuppressWarnings("ChainedMethodCall")
 public class Shelter {
-    private static FirebaseDatabase Shelterdatabase = FirebaseDatabase.getInstance();
-    private static DatabaseReference shelterRef = Shelterdatabase.getReference();
+    private static final FirebaseDatabase shelterDatabase = FirebaseDatabase.getInstance();
+    private static final DatabaseReference shelterRef = shelterDatabase.getReference();
 
     private String unique_id;
     private String name;
@@ -25,148 +24,288 @@ public class Shelter {
     private String special_notes;
     private String number;
     /**
-     * Maps usernames to the number of beds they occupy.
+     * Maps user names to the number of beds they occupy.
      */
     private HashMap<String, Integer> checkedInUsers = new HashMap<>();
     private int occupiedBeds;
+
+    /**
+     * Default constructor required for DataSnapshot.getValue(Shelter.class);
+     */
     public Shelter() {
-        // Default constructor required for DataSnapshot.getValue(Shelter.class);
-    }
-    public Shelter(String id, String n, Integer c, String r, Double longi, Double lati, String addr, String notes, String phone) {
-        unique_id = id;
-        capacity = c;
-        name = n;
-        restrictions = r;
-        longitude = longi;
-        latitude = lati;
-        address = addr;
-        special_notes = notes;
-        number = phone;
-        writeNewShelter();
-    }
-    public void writeNewShelter() {
-        shelterRef.child("shelters").child(name).child("name").setValue(name);
-        shelterRef.child("shelters").child(name).child("unique_id").setValue(unique_id);
-        shelterRef.child("shelters").child(name).child("capacity").setValue(capacity);
-        shelterRef.child("shelters").child(name).child("restrictions").setValue(restrictions);
-        shelterRef.child("shelters").child(name).child("longitute").setValue(longitude);
-        shelterRef.child("shelters").child(name).child("latitude").setValue(latitude);
-        shelterRef.child("shelters").child(name).child("address").setValue(address);
-        shelterRef.child("shelters").child(name).child("special notes").setValue(special_notes);
-        shelterRef.child("shelters").child(name).child("number").setValue(number);
-        shelterRef.child("shelters").child(name).child("checkedInUsers").setValue(checkedInUsers);
-        shelterRef.child("shelters").child(name).child("occupiedBeds").setValue(occupiedBeds);
     }
 
+    /** Creates new instance of Shelter class
+     * @param id unique id of shelter
+     * @param n name of shelter
+     * @param c capacity of shelter
+     * @param r shelter restrictions
+     * @param longitude longitude of shelter
+     * @param latitude latitude of shelter
+     * @param address address of shelter
+     * @param notes special notes
+     * @param phone phone number
+     */
+    @SuppressWarnings("ConstructorWithTooManyParameters")
+    public Shelter(String id, String n, Integer c, String r, Double longitude, Double latitude,
+                   String address, String notes, String phone) {
+        this.unique_id = id;
+        this.capacity = c;
+        this.name = n;
+        this.restrictions = r;
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.address = address;
+        this.special_notes = notes;
+        this.number = phone;
+        writeNewShelter();
+    }
+
+    /**
+     * Writes this shelter to the database
+     */
+    private void writeNewShelter() {
+        DatabaseReference shelterReference = shelterRef.child("shelters");
+        DatabaseReference specificShelter = shelterReference.child(name);
+        DatabaseReference dataName = specificShelter.child("name");
+        dataName.setValue(name);
+        DatabaseReference dataID = specificShelter.child("unique_id");
+        dataID.setValue(unique_id);
+        DatabaseReference dataCapacity = specificShelter.child("capacity");
+        dataCapacity.setValue(capacity);
+        DatabaseReference dataRestrict = specificShelter.child("restrictions");
+        dataRestrict.setValue(restrictions);
+        DatabaseReference dataLongitude = specificShelter.child("longitute");
+        dataLongitude.setValue(longitude);
+        DatabaseReference dataLatitude = specificShelter.child("latitude");
+        dataLatitude.setValue(latitude);
+        DatabaseReference dataAddress = specificShelter.child("address");
+        dataAddress.setValue(address);
+        DatabaseReference dataSpecial = specificShelter.child("special notes");
+        dataSpecial.setValue(special_notes);
+        DatabaseReference dataNumber = specificShelter.child("number");
+        dataNumber.setValue(number);
+        DatabaseReference dataChecked = specificShelter.child("checkedInUsers");
+        dataChecked.setValue(checkedInUsers);
+        DatabaseReference dataOccupied = specificShelter.child("occupiedBeds");
+        dataOccupied.setValue(occupiedBeds);
+    }
+
+    /**
+     * @return the unique id of this shelter
+     */
     public String getUnique_id() {
         return unique_id;
     }
 
+    /**
+     * @return the name of this shelter
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * @return the capacity of this shelter
+     */
     public Integer getCapacity() {
         return capacity;
     }
 
+
+    /**
+     * @return the restrictions of this shelter
+     */
     public String getRestrictions() {
         return restrictions;
     }
 
+    /**
+     * @return the longitude of this shelter
+     */
     public Double getLongitude() {
         return longitude;
     }
 
+    /**
+     * @return the latitude of this shelter
+     */
     public Double getLatitude() {
         return latitude;
     }
 
+    /**
+     * @return the address of this shelter
+     */
     public String getAddress() {
         return address;
     }
 
+    /**
+     * @return the special notes of this shelter
+     */
     public String getSpecial_notes() {
         return special_notes;
     }
 
+    /**
+     * @return the phone number of this shelter
+     */
     public String getNumber() {
         return number;
     }
 
+    /**
+     * @return the map of checked in users of this shelter
+     */
     public HashMap<String, Integer> getCheckedInUsers() { return checkedInUsers; }
 
+    /**
+     * @return the number of occupied beds in this shelter
+     */
     public int getOccupiedBeds() { return occupiedBeds; }
 
+    /**
+     *
+     * @param unique_id sets the shelter's id to the input value
+     */
     public void setUnique_id(String unique_id) {
         this.unique_id = unique_id;
     }
 
+    /**
+     *
+     * @param name Sets name to input name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     *
+     * @param capacity Sets capacity of shelter
+     */
     public void setCapacity(Integer capacity) {
         this.capacity = capacity;
     }
 
+    /**
+     *
+     * @param restrictions Sets restrictions of shelters
+     */
     public void setRestrictions(String restrictions) {
         this.restrictions = restrictions;
     }
 
+    /**
+     *
+     * @param longitude sets longitude of shelter
+     */
     public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 
+    /**
+     *
+     * @param latitude sets latitude of shelter
+     */
     public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
+    /**
+     *
+     * @param address sets the address of shelter
+     */
     public void setAddress(String address) {
         this.address = address;
     }
 
+    /** Sets the special notes of shelter
+     *
+     * @param special_notes String of special notes to set
+     */
     public void setSpecial_notes(String special_notes) {
         this.special_notes = special_notes;
     }
 
+    /**
+     * Sets the phone number of shelter
+     * @param number String of phone number to set
+     */
     public void setNumber(String number) {
         this.number = number;
     }
 
+    /**
+     * Sets the map of checked in users at the shelter
+     * @param hash Hash map to set
+     */
     public void setCheckedInUsers(HashMap<String, Integer> hash) {
+        //noinspection AssignmentToCollectionOrArrayFieldFromParameter
         checkedInUsers = hash;
     }
+
+    /**
+     * Sets the number of occupied beds
+     * @param i  Integer number of occupied beds
+     */
     public void setOccupiedBeds(int i) {
         occupiedBeds = i;
     }
+
+    /**
+     *
+     * @return number of vacancies (capacity - occupied)
+     */
     public int getNumberOfVacancies() {
         android.util.Log.d("tag", "" + capacity);
         android.util.Log.d("tag", "" + occupiedBeds);
         return capacity - occupiedBeds;
     }
 
+    /**
+     * Returns if the shelter has a certain number of beds available or not
+     * @param beds number of desired vacant beds
+     * @return true if there are enough beds vacant, false otherwise
+     */
     public boolean hasVacancy(int beds) {
         return getNumberOfVacancies() >= beds;
     }
 
-    public boolean hasVacancy() {
-        return hasVacancy(1);
-    }
+//    /**
+//     * Returns if the shelter has a bed vacant or not
+//     * @return true if there is a vacant bed, false otherwise
+//     */
+//    public boolean hasVacancy() {
+//        return hasVacancy(1);
+//    }
 
+    /**
+     * Checks a user into the shelter, taking a certain number of beds
+     * @param user The user to check into the shelter
+     * @param beds The number of beds the user wants to check in
+     * @return True if the check in was successful, false otherwise
+     */
     public boolean checkIn(User user, int beds) {
-        if (!hasVacancy(beds) || user.getCurrentShelter() != null) {
+        if ((!hasVacancy(beds)) || !user.checkIn(getName())) {
             return false;
         }
-        checkedInUsers.put(user.getUsername(), beds);
+        String username = user.getUsername();
+        checkedInUsers.put(username, beds);
         occupiedBeds += beds;
-        user.setCurrentShelter(this.getName());
-        FirebaseDatabase.getInstance().getReference().child("users").child(user.getUsername()).child("currentShelter").setValue(name);
+        FirebaseDatabase.getInstance().getReference().child("users").child(username)
+                .child("currentShelter").setValue(name);
         shelterRef.child("shelters").child(name).child("checkedInUsers").setValue(checkedInUsers);
         shelterRef.child("shelters").child(name).child("occupiedBeds").setValue(occupiedBeds);
         return true;
     }
 
+    /**
+     * Attempts to check out a user from the shelter
+     * @param user The user attempting to check out from the shelter
+     * @return True if the user successfully checks out, false otherwise
+     */
     public boolean checkOut(User user) {
         String username = user.getUsername();
         if (checkedInUsers.get(username) == null) {
@@ -175,7 +314,7 @@ public class Shelter {
         int beds = checkedInUsers.get(username);
         checkedInUsers.remove(username);
         occupiedBeds -= beds;
-        user.setCurrentShelter(null);
+        user.checkOut();
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users");
         userRef.child("username").child("currentShelter").setValue(null);
         shelterRef.child("shelters").child(name).child("checkedInUsers").setValue(checkedInUsers);
@@ -193,7 +332,7 @@ public class Shelter {
         if (s.isEmpty()) {
             return 0;
         }
-        Integer capacity = 0;
+        Integer capacity;
         try {
             capacity = Integer.parseInt(s);
         } catch (Exception ex) {

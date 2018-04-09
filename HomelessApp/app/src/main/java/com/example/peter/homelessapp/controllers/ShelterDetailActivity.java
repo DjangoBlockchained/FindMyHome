@@ -42,6 +42,7 @@ public class ShelterDetailActivity extends AppCompatActivity{
         DatabaseReference shelterRefPre = shelterDB.getReference();
         DatabaseReference shelterRef = shelterRefPre.child("shelters");
         DatabaseReference nameRef = shelterRef.child(name);
+
         claimbutton.setOnClickListener((view) -> {
             Intent intent = new Intent(ShelterDetailActivity.this, ClaimScreenActivity.class);
             intent.putExtra("username", username);

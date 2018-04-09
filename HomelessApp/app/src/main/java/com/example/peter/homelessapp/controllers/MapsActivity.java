@@ -21,12 +21,15 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Map;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+/**
+ * MapsActivity shows a map of shelters.
+ */
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
+        GoogleMap.OnMarkerClickListener {
 
     private GoogleMap mMap;
     private DatabaseReference shelterRef;
     private String username;
-    private Button search;
 
     private String searchName;
     private String searchGender;
@@ -40,6 +43,34 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         username = getIntent().getStringExtra("username");
         searchName = getIntent().getStringExtra("name");
 
+        loadSearchGender();
+        loadSearchAge();
+        if (searchName == null) {
+            searchName = "";
+        }
+        if (searchGender == null) {
+            searchGender = "";
+            genderAvoid = "";
+        }
+
+        Button search = findViewById(R.id.mapSearch);
+        shelterRef = FirebaseDatabase.getInstance().getReference().child("shelters");
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
+        search.setOnClickListener((view) -> {
+            Intent intent = new Intent(MapsActivity.this, SearchScreenActivity.class);
+            intent.putExtra("name", searchName);
+            intent.putExtra("gender", searchGender);
+            intent.putExtra("age", searchAge);
+            intent.putExtra("fromMap", "true");
+            startActivity(intent);
+        });
+    }
+
+    private void loadSearchGender() {
         int genderID = getIntent().getIntExtra("gender", -100);
         if (genderID == R.id.genderMale) {
             searchGender = "Men";
@@ -51,10 +82,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             searchGender = "Any";
             genderAvoid = "Any";
         } else {
-            searchGender = null;
-            genderAvoid = null;
+            searchGender = "";
+            genderAvoid = "";
         }
+    }
 
+    private void loadSearchAge() {
         int ageID = getIntent().getIntExtra("age", -100);
         if (ageID == R.id.ageNewborn) {
             searchAge = "newborn";
@@ -65,20 +98,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         } else if (ageID == R.id.ageAny) {
             searchAge = "Any";
         } else {
-            searchAge = null;
-        }
-        if (searchName == null) {
-            searchName = "";
-        }
-        if (searchGender == null) {
-            searchGender = "";
-            genderAvoid = "";
-        }
-        if (searchAge == null) {
             searchAge = "";
         }
 
-        search = (Button) findViewById(R.id.mapSearch);
+        Button search = (Button) findViewById(R.id.mapSearch);
         shelterRef = FirebaseDatabase.getInstance().getReference().child("shelters");
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -95,7 +118,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
     }
 
-
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -108,14 +130,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        if (searchName.equals("") && searchGender.equals("") && searchAge.equals("")) {
+        if ("".equals(searchName) && "".equals(searchGender) && "".equals(searchAge)) {
             showAllShelters();
         } else {
-            showSearchedShelter(searchName, searchGender, searchAge);
+            showSearchedShelter(searchName, genderAvoid, searchAge);
         }
-        mMap.setMinZoomPreference((float) 11.5);
-        mMap.setMaxZoomPreference(18);
-        LatLng startLocation = new LatLng(33.779955, -84.4);
+        final float minZoomPreference = 11.5f;
+        final float maxZoomPreference = 18f;
+        final float startLatitude = 33.779955f;
+        final float startLongitude = -84.4f;
+        mMap.setMinZoomPreference(minZoomPreference);
+        mMap.setMaxZoomPreference(maxZoomPreference);
+        LatLng startLocation = new LatLng(startLatitude, startLongitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(startLocation));
         mMap.setOnMarkerClickListener(this);
         // Add a marker in Sydney and move the camera
@@ -124,6 +150,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));*/
     }
 
+    @Override
     public boolean onMarkerClick(final Marker marker) {
         String name = marker.getTitle();
         Intent intent = new Intent(MapsActivity.this, ShelterDetailActivity.class);
@@ -137,9 +164,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         shelterRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Map<String, Object> string = (Map<String, Object> )dataSnapshot.getValue();
-                double latitude = (double) string.get("latitude");
-                double longitude = (double) string.get("longitute");
+                Map string = (Map)dataSnapshot.getValue();
+                if (string == null) { return; }
+                Double latitude = (Double) string.get("latitude");
+                Double longitude = (Double) string.get("longitude");
+                if (latitude == null || longitude == null) { return; }
                 String name = string.get("name").toString();
                 LatLng location = new LatLng(latitude, longitude);
                 mMap.addMarker(new MarkerOptions().position(location).title(name));
@@ -166,38 +195,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
     }
-    private void showSearchedShelter(String name, String gender, String age) {
+    private void showSearchedShelter(String name, CharSequence gender, CharSequence age) {
         shelterRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Map<String, Object> string = (Map<String, Object>) dataSnapshot.getValue();
-                String restriction = string.get("restrictions").toString();
-                String dbname = string.get("name").toString();
-                if (gender.equals("Any")) {
-                    if (dbname.toLowerCase().contains(name.toLowerCase())
-                            && (((!(restriction.contains("Men") || (restriction.contains("Women")))) || (restriction.contains("Anyone")))
-                            && ((restriction.contains(age)) || (restriction.contains("Anyone"))))) {
-                        double latitude = (double) string.get("latitude");
-                        double longitude = (double) string.get("longitute");
-                        LatLng location = new LatLng(latitude, longitude);
-                        mMap.addMarker(new MarkerOptions().position(location).title(dbname));
-                    }
-                } else if (!gender.equals("")) {
-                    if (dbname.toLowerCase().contains(name.toLowerCase())
-                            && (((!restriction.contains(gender)) || (restriction.contains("Anyone")))
-                            && ((restriction.contains(age)) || (restriction.contains("Anyone"))))) {
-                        double latitude = (double) string.get("latitude");
-                        double longitude = (double) string.get("longitute");
-                        LatLng location = new LatLng(latitude, longitude);
-                        mMap.addMarker(new MarkerOptions().position(location).title(dbname));
-                    }
-                } else {
-                    if (dbname.toLowerCase().contains(name.toLowerCase()) && ((restriction.contains(age)) || (restriction.contains("Anyone")))) {
-                        double latitude = (double) string.get("latitude");
-                        double longitude = (double) string.get("longitute");
-                        LatLng location = new LatLng(latitude, longitude);
-                        mMap.addMarker(new MarkerOptions().position(location).title(dbname));
-                    }
+                Map string = (Map) dataSnapshot.getValue();
+                if (string == null) { return; }
+                if (matchesSearch(string, name, gender, age)) {
+                    addMarker(string);
                 }
             }
 
@@ -221,5 +226,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             }
         });
+    }
+
+    private boolean matchesSearch(Map data, String name, CharSequence gender, CharSequence age) {
+        String restriction = data.get("restrictions").toString();
+        String databaseName = data.get("name").toString();
+        boolean nameMatches = databaseName.toLowerCase().contains(name.toLowerCase());
+        boolean ageMatches = (restriction.contains(age)) || (restriction.contains("Anyone"));
+        boolean genderMatches;
+        if ("Any".equals(gender)) {
+            genderMatches = restriction.contains("Men")
+                    || restriction.contains("Women")
+                    || restriction.contains("Anyone");
+        } else {
+            genderMatches = "".equals(gender)
+                    || !restriction.contains(gender)
+                    || restriction.contains("Anyone");
+        }
+        return nameMatches && ageMatches && genderMatches;
+    }
+
+    private void addMarker(Map data) {
+        String name = (String) data.get("name");
+        double latitude = (double) data.get("latitude");
+        double longitude = (double) data.get("longitude");
+        LatLng location = new LatLng(latitude, longitude);
+        mMap.addMarker(new MarkerOptions().position(location).title(name));
     }
 }

@@ -33,6 +33,7 @@ public class SearchScreenActivity extends AppCompatActivity {
         Intent i = getIntent();
         if (i.getStringExtra("name") != null) {
             name.setText(i.getStringExtra("name"));
+
         }
 
         loadSearchAge();
