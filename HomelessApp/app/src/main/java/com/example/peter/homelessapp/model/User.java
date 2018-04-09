@@ -61,7 +61,6 @@ public abstract class User {
     public void setUsername(String name) {
         _username = name;
     }
-<<<<<<< HEAD
 
     /**
      * Checks if a user name is in our user map or not
