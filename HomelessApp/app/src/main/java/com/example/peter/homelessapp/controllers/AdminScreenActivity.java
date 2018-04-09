@@ -40,8 +40,9 @@ public class AdminScreenActivity extends AppCompatActivity {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(AdminScreenActivity.this, WelcomeScreenActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(AdminScreenActivity.this, WelcomeScreenActivity.class);
+//                startActivity(intent);
+                finish();
             }
         });
         shelterList = (Button) findViewById(R.id.sheltersList);

@@ -90,7 +90,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             intent.putExtra("name", searchName);
             intent.putExtra("gender", searchGender);
             intent.putExtra("age", searchAge);
-            intent.putExtra("fromMap", "true");
+            intent.putExtra("fromClass", getClass().getName());
             startActivity(intent);
         });
     }

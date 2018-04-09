@@ -39,8 +39,8 @@ public abstract class User {
     public void setUsername(String name) {
         _username = name;
     }
-    public static boolean checkUsername(String uname) {
-        return !(_passwordMap.containsKey(uname));
+    public static boolean checkUsername(String uName) {
+        return !(_passwordMap.containsKey(uName));
     }
     public static boolean checkLogin(String username, String pass) {
         if (_passwordMap.containsKey(username) && (_passwordMap.get(username).equals(pass))) {
@@ -49,8 +49,8 @@ public abstract class User {
             return false;
         }
     }
-    public static User getUser(String uname) {
-        return _userMap.get(uname);
+    public static User getUser(String uName) {
+        return _userMap.get(uName);
     }
 
     public String getCurrentShelter() { return _currentShelter; }

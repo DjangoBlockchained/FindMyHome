@@ -40,8 +40,7 @@ public class ApplicationScreenActivity extends AppCompatActivity {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ApplicationScreenActivity.this, WelcomeScreenActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
         shelterList = (Button) findViewById(R.id.shelterListButton);

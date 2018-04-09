@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:text="Shelter Details"
         android:textColor="@android:color/black"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:layout_marginTop="5dp"
         android:gravity="center"/>
 
