@@ -25,10 +25,10 @@ public class SearchScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_screen);
 
-        submit = (Button) findViewById(R.id.applySettings);
-        name = (EditText) findViewById(R.id.nameSearch);
-        ageGroup = (RadioGroup) findViewById(R.id.ageGroup);
-        genderGroup = (RadioGroup) findViewById(R.id.genderGroup);
+        submit = findViewById(R.id.applySettings);
+        name = findViewById(R.id.nameSearch);
+        ageGroup = findViewById(R.id.ageGroup);
+        genderGroup = findViewById(R.id.genderGroup);
 
         if (getIntent().getStringExtra("name") != null) {
             name.setText(getIntent().getStringExtra("name"));

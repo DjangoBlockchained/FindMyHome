@@ -39,7 +39,7 @@ public class ShelterDetailActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shelter_details);
         list = findViewById(R.id.shelterdetails);
-        claimbutton = (Button) findViewById(R.id.claimbutton);
+        claimbutton = findViewById(R.id.claimbutton);
         adapter = new ArrayAdapter(ShelterDetailActivity.this, android.R.layout.simple_list_item_1, details);
         username = getIntent().getStringExtra("username");
         String name = getIntent().getStringExtra("Shelter Name");

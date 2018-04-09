@@ -13,80 +13,93 @@ import com.example.peter.homelessapp.R;
 import com.example.peter.homelessapp.model.Administer;
 import com.example.peter.homelessapp.model.HomelessUser;
 import com.example.peter.homelessapp.model.User;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 /**
- * Created by sanjanakadiveti on 2/11/18.
+ * The activity for registering a new account.
  */
-
 public class RegisterScreenActivity extends AppCompatActivity {
 
-    private Button cancel;
-    private Button register;
     private EditText name;
     private EditText username;
     private EditText password1;
     private EditText password2;
     private CheckBox adminBox;
-    private DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child("users");
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_screen);
 
-        name = (EditText) findViewById(R.id.regName);
-        username = (EditText) findViewById(R.id.regUserName);
-        password1 = (EditText) findViewById(R.id.regPass1);
-        password2 = (EditText) findViewById(R.id.regPass2);
-        adminBox = (CheckBox) findViewById(R.id.checkBox);
+        name = findViewById(R.id.regName);
+        username = findViewById(R.id.regUserName);
+        password1 = findViewById(R.id.regPass1);
+        password2 = findViewById(R.id.regPass2);
+        adminBox = findViewById(R.id.checkBox);
 
-        cancel = (Button) findViewById(R.id.cancel2);
+        Button cancel = findViewById(R.id.cancel2);
         cancel.setOnClickListener((view) -> {
             Intent intent = new Intent(RegisterScreenActivity.this, WelcomeScreenActivity.class);
             startActivity(intent);
         });
 
-        register = (Button) findViewById(R.id.registerUser);
+        Button register = findViewById(R.id.registerUser);
         register.setOnClickListener((view) -> {
             if ((name.getText().length() == 0)
                     || (username.getText().length() == 0)
                     || (password1.getText().length() == 0)
                     || (password2.getText().length() == 0)) {
-                AlertDialog.Builder alert2 = new AlertDialog.Builder(RegisterScreenActivity.this);
-                alert2.setMessage("Cannot register until all fields have been filled!");
-                alert2.setTitle("Registration Error");
-                alert2.setPositiveButton("OK", null);
-                alert2.create().show();
+                showEmptyFieldsAlert();
             } else if (password1.getText().toString().equals(password2.getText().toString())) {
                 if (validUserName(username.getText().toString())) {
                     if (adminBox.isChecked()) {
-                        Administer newUser = new Administer(name.getText().toString(), username.getText().toString(), password1.getText().toString());
-                        Intent intent = new Intent(RegisterScreenActivity.this, AdminScreenActivity.class);
+                        Administer newUser = new Administer(name.getText().toString(),
+                                username.getText().toString(), password1.getText().toString());
+                        Intent intent = new Intent(RegisterScreenActivity.this,
+                                AdminScreenActivity.class);
                         intent.putExtra("admin", username.getText().toString());
                         startActivity(intent);
                     } else {
-                        HomelessUser newUser = new HomelessUser(name.getText().toString(), username.getText().toString(), password1.getText().toString());
-                        Intent intent = new Intent(RegisterScreenActivity.this, ApplicationScreenActivity.class);
+                        HomelessUser newUser = new HomelessUser(name.getText().toString(),
+                                username.getText().toString(), password1.getText().toString());
+                        Intent intent = new Intent(RegisterScreenActivity.this,
+                                ApplicationScreenActivity.class);
                         intent.putExtra("username", username.getText().toString());
                         startActivity(intent);
                     }
                 } else {
-                    AlertDialog.Builder alert = new AlertDialog.Builder(RegisterScreenActivity.this);
-                    alert.setMessage("That user name is already taken. Pick another one!");
-                    alert.setTitle("Invalid User Name");
-                    alert.setPositiveButton("OK", null);
-                    alert.create().show();
+                    showTakenUsernameAlert();
                 }
             } else {
-                AlertDialog.Builder alert = new AlertDialog.Builder(RegisterScreenActivity.this);
-                alert.setMessage("Your passwords didn't match. Make sure you put the same password for each!");
-                alert.setTitle("Password Mismatch");
-                alert.setPositiveButton("OK", null);
-                alert.create().show();
+                showMismatchedPasswordsAlert();
             }
         });
+    }
+
+    private void showEmptyFieldsAlert() {
+        AlertDialog.Builder alert2 = new AlertDialog.Builder(RegisterScreenActivity.this);
+        alert2.setMessage("Cannot register until all fields have been filled!");
+        alert2.setTitle("Registration Error");
+        alert2.setPositiveButton("OK", null);
+        alert2.create().show();
+    }
+
+    private void showTakenUsernameAlert() {
+        AlertDialog.Builder alert
+                = new AlertDialog.Builder(RegisterScreenActivity.this);
+        alert.setMessage("That user name is already taken. Pick another one!");
+        alert.setTitle("Invalid User Name");
+        alert.setPositiveButton("OK", null);
+        alert.create().show();
+    }
+
+    private void showMismatchedPasswordsAlert() {
+        AlertDialog.Builder alert
+                = new AlertDialog.Builder(RegisterScreenActivity.this);
+        alert.setMessage("Your passwords didn't match."
+                + " Make sure you put the same password for each!");
+        alert.setTitle("Password Mismatch");
+        alert.setPositiveButton("OK", null);
+        alert.create().show();
     }
 
     private boolean validUserName(String username) {
