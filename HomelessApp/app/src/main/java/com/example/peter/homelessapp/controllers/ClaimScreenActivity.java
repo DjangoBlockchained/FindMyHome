@@ -14,6 +14,7 @@ import com.example.peter.homelessapp.R;
 import com.example.peter.homelessapp.model.HomelessUser;
 import com.example.peter.homelessapp.model.Shelter;
 import com.example.peter.homelessapp.model.User;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,12 +27,13 @@ import com.google.firebase.database.ValueEventListener;
 
 public class ClaimScreenActivity extends AppCompatActivity {
 
-    private EditText bedsPicker;
     private Button claimButton;
 
     private DatabaseReference shelterRef;
+    private DatabaseReference userRef;
     private Shelter shelter;
     private HomelessUser currentUser;
+    private String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,18 +48,33 @@ public class ClaimScreenActivity extends AppCompatActivity {
 
         User user = getIntent().getParcelableExtra("user");
         currentUser = (HomelessUser) User.getUser(user.getUsername());
+        final TextView tv = (TextView) findViewById(R.id.tv);
+        NumberPicker np = (NumberPicker) findViewById(R.id.np);
+
+        np.setMinValue(1);
+        np.setMaxValue(10);
+
+        //User user = getIntent().getParcelableExtra("user");
+        username = getIntent().getStringExtra("username");
+        userRef = FirebaseDatabase.getInstance().getReference().child("users").child(username);
+        userRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                currentUser = dataSnapshot.getValue(HomelessUser.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         String name = getIntent().getStringExtra("Shelter Name");
-        android.util.Log.d("tag", "it's the name: " + name);
         shelterRef = FirebaseDatabase.getInstance().getReference().child("shelters").child(name);// .getParent();
         shelterRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 shelter = dataSnapshot.getValue(Shelter.class);
-                android.util.Log.d("tag", "got the shelter");
-                // android.util.Log.d("tag", shelter.getName());
-                android.util.Log.d("tag", shelter.getAddress());
-                android.util.Log.d("tag", " " + shelter.getCapacity());
             }
 
             @Override
@@ -87,12 +104,31 @@ public class ClaimScreenActivity extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("Already Checked In");
                 builder.setMessage("You are already checked in to the shelter '"
-                        + currentUser.getCurrentShelter().getName()
+                        + currentUser.getCurrentShelter()
                         + "'. Would you like to check out and check in to the new shelter?");
                 builder.setPositiveButton("Check Out", (dialog, id) -> {
-                    currentUser.getCurrentShelter().checkOut(currentUser);
-                    checkIn(beds);
-                    dialog.dismiss();
+                    String sheltername = currentUser.getCurrentShelter();
+                    shelterRef = FirebaseDatabase.getInstance().getReference().child("shelters").child(sheltername);// .getParent();
+                    shelterRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            Shelter currShelter = dataSnapshot.getValue(Shelter.class);
+                            if (currShelter.getName().equals(shelter.getName())) {
+                                shelter.checkOut(currentUser);
+                            } else {
+                                currShelter.checkOut(currentUser);
+                            }
+                            checkIn(beds);
+                            dialog.dismiss();
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
                 });
                 builder.setNegativeButton("Cancel", (dialog, id) -> {
                     dialog.dismiss();

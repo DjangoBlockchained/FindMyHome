@@ -32,7 +32,8 @@ public class ShelterDetailActivity extends AppCompatActivity{
     private String searchAge;
     private String searchGender;
     private Button claimbutton;
-    private HomelessUser currentUser;
+    //private HomelessUser currentUser;
+    private String username;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,12 +41,12 @@ public class ShelterDetailActivity extends AppCompatActivity{
         list = findViewById(R.id.shelterdetails);
         claimbutton = (Button) findViewById(R.id.claimbutton);
         adapter = new ArrayAdapter(ShelterDetailActivity.this, android.R.layout.simple_list_item_1, details);
-        currentUser = getIntent().getParcelableExtra("user");
+        username = getIntent().getStringExtra("username");
         String name = getIntent().getStringExtra("Shelter Name");
         shelterRef = FirebaseDatabase.getInstance().getReference().child("shelters").child(name);
         claimbutton.setOnClickListener((view) -> {
             Intent intent = new Intent(ShelterDetailActivity.this, ClaimScreenActivity.class);
-            intent.putExtra("user", currentUser);
+            intent.putExtra("username", username);
             intent.putExtra("Shelter Name", name);
             startActivity(intent);
         });

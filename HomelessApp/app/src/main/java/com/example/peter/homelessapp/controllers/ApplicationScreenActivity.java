@@ -25,15 +25,17 @@ import java.nio.charset.StandardCharsets;
 
 public class ApplicationScreenActivity extends AppCompatActivity {
     private Button logout;
-    private HomelessUser user;
+    private String username;
+    //private HomelessUser user;
     private Button shelterList;
+    private Button mapView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_application_screen);
 
-
-        user = (HomelessUser) getIntent().getParcelableExtra("user");
+        username = getIntent().getStringExtra("username");
+        //user = (HomelessUser) getIntent().getParcelableExtra("user");
         logout = (Button) findViewById(R.id.logout);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,9 +48,19 @@ public class ApplicationScreenActivity extends AppCompatActivity {
         shelterList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                readShelters();
+                // readShelters();
                 Intent intent2 = new Intent(ApplicationScreenActivity.this, ShelterListActivity.class);
-                intent2.putExtra("user", user);
+                intent2.putExtra("username", username);
+                startActivity(intent2);
+            }
+        });
+
+        mapView = (Button) findViewById(R.id.mapViewButton);
+        mapView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent2 = new Intent(ApplicationScreenActivity.this, MapsActivity.class);
+                intent2.putExtra("username", username);
                 startActivity(intent2);
             }
         });

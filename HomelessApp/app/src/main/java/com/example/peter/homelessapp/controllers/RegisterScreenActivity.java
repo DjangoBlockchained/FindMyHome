@@ -13,6 +13,8 @@ import com.example.peter.homelessapp.R;
 import com.example.peter.homelessapp.model.Administer;
 import com.example.peter.homelessapp.model.HomelessUser;
 import com.example.peter.homelessapp.model.User;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * Created by sanjanakadiveti on 2/11/18.
@@ -27,6 +29,7 @@ public class RegisterScreenActivity extends AppCompatActivity {
     private EditText password1;
     private EditText password2;
     private CheckBox adminBox;
+    private DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child("users");
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,12 +64,12 @@ public class RegisterScreenActivity extends AppCompatActivity {
                     if (adminBox.isChecked()) {
                         Administer newUser = new Administer(name.getText().toString(), username.getText().toString(), password1.getText().toString());
                         Intent intent = new Intent(RegisterScreenActivity.this, AdminScreenActivity.class);
-                        intent.putExtra("admin", newUser);
+                        intent.putExtra("admin", username.getText().toString());
                         startActivity(intent);
                     } else {
                         HomelessUser newUser = new HomelessUser(name.getText().toString(), username.getText().toString(), password1.getText().toString());
                         Intent intent = new Intent(RegisterScreenActivity.this, ApplicationScreenActivity.class);
-                        intent.putExtra("user", newUser);
+                        intent.putExtra("username", username.getText().toString());
                         startActivity(intent);
                     }
                 } else {

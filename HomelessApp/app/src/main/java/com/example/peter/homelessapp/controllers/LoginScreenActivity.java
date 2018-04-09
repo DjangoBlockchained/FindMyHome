@@ -17,6 +17,11 @@ import com.example.peter.homelessapp.R;
 import com.example.peter.homelessapp.model.Administer;
 import com.example.peter.homelessapp.model.HomelessUser;
 import com.example.peter.homelessapp.model.User;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * Created by Peter on 2/11/18.
@@ -39,27 +44,59 @@ public class LoginScreenActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (User.checkLogin(userName.getText().toString(), password.getText().toString())) {
-                    if (User.getUser(userName.getText().toString()) instanceof Administer) {
-                        System.out.println("I'm an admin!");
-                        Intent intent = new Intent(LoginScreenActivity.this, AdminScreenActivity.class);
-                        intent.putExtra("admin", (Administer) User.getUser(userName.getText().toString()));
-                        startActivity(intent);
-                    } else {
-                        System.out.println("I'm a regular user!");
-                        Intent intent = new Intent(LoginScreenActivity.this, ApplicationScreenActivity.class);
-                        intent.putExtra("user", (HomelessUser) User.getUser(userName.getText().toString()));
-                        startActivity(intent);
+                String uname = userName.getText().toString();
+                String pass = password.getText().toString();
+                DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child("users");
+                dbRef.addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                        if (dataSnapshot.getKey().equals(uname)) {
+                            System.out.println("here!!!!!");
+                            if (dataSnapshot.child("password").getValue().equals(pass)) {
+                                if (dataSnapshot.child("type").equals("administer")) {
+                                    Intent intent = new Intent(LoginScreenActivity.this, AdminScreenActivity.class);
+                                    intent.putExtra("username", uname);
+                                    startActivity(intent);
+                                    finish();
+                                } else {
+                                    Intent intent = new Intent(LoginScreenActivity.this, ApplicationScreenActivity.class);
+                                    intent.putExtra("username", uname);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            } else {
+                                AlertDialog.Builder alert = new AlertDialog.Builder(LoginScreenActivity.this);
+                                alert.setMessage("Your username and password do not match with a real user.");
+                                alert.setTitle("Login Error");
+                                alert.setPositiveButton("OK", null);
+                                alert.create().show();
+                            }
+                        }
                     }
-                } else {
-                    AlertDialog.Builder alert = new AlertDialog.Builder(LoginScreenActivity.this);
-                    alert.setMessage("Your username and password do not match with a real user.");
-                    alert.setTitle("Login Error");
-                    alert.setPositiveButton("OK", null);
-                    alert.create().show();
-                }
+
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                    }
+
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                    }
+
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
             }
         });
+
 
         cancel = (Button) findViewById(R.id.cancel);
         cancel.setOnClickListener(new View.OnClickListener() {

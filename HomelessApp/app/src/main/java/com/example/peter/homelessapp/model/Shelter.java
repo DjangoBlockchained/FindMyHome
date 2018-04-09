@@ -94,6 +94,10 @@ public class Shelter {
         return number;
     }
 
+    public HashMap<String, Integer> getCheckedInUsers() { return checkedInUsers; }
+
+    public int getOccupiedBeds() { return occupiedBeds; }
+
     public void setUnique_id(String unique_id) {
         this.unique_id = unique_id;
     }
@@ -130,7 +134,12 @@ public class Shelter {
         this.number = number;
     }
 
-
+    public void setCheckedInUsers(HashMap<String, Integer> hash) {
+        checkedInUsers = hash;
+    }
+    public void setOccupiedBeds(int i) {
+        occupiedBeds = i;
+    }
     public int getNumberOfVacancies() {
         android.util.Log.d("tag", "" + capacity);
         android.util.Log.d("tag", "" + occupiedBeds);
@@ -151,7 +160,8 @@ public class Shelter {
         }
         checkedInUsers.put(user.getUsername(), beds);
         occupiedBeds += beds;
-        user.setCurrentShelter(this);
+        user.setCurrentShelter(this.getName());
+        FirebaseDatabase.getInstance().getReference().child("users").child(user.getUsername()).child("currentShelter").setValue(name);
         shelterRef.child("shelters").child(name).child("checkedInUsers").setValue(checkedInUsers);
         shelterRef.child("shelters").child(name).child("occupiedBeds").setValue(occupiedBeds);
         return true;
@@ -163,9 +173,11 @@ public class Shelter {
             return false;
         }
         int beds = checkedInUsers.get(username);
-        checkedInUsers.remove(user);
+        checkedInUsers.remove(username);
         occupiedBeds -= beds;
         user.setCurrentShelter(null);
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users");
+        userRef.child("username").child("currentShelter").setValue(null);
         shelterRef.child("shelters").child(name).child("checkedInUsers").setValue(checkedInUsers);
         shelterRef.child("shelters").child(name).child("occupiedBeds").setValue(occupiedBeds);
         return true;
