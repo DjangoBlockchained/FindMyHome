@@ -228,7 +228,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
     }
 
-    public static boolean matchesSearch(Map data, String name, CharSequence gender, CharSequence age) {
+    private static boolean matchesSearch(Map data, String name, CharSequence gender,
+                                         CharSequence age) {
         String restriction = data.get("restrictions").toString();
         String databaseName = data.get("name").toString();
         boolean nameMatches = databaseName.toLowerCase().contains(name.toLowerCase());
@@ -237,6 +238,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return nameMatches && ageMatches && genderMatches;
     }
 
+    /**
+     * Tests if the shelter data's restrictions match the searched gender.
+     * @param data A map containing the shelter's data.
+     * @param gender The search query string for gender.
+     * @return true if data's restrictions match gender, otherwise false.
+     */
     public static boolean genderMatches(Map data, CharSequence gender) {
         boolean genderMatches;
         String restriction = data.get("restrictions").toString();

@@ -29,13 +29,6 @@ public class AdminScreenActivity extends AppCompatActivity {
         //admin = (Administer) getIntent().getParcelableExtra("admin");
 
         Button logout = findViewById(R.id.adminLogout);
-        logout.setOnClickListener((View view) -> {
-            Intent intent
-                    = new Intent(AdminScreenActivity.this,
-                    WelcomeScreenActivity.class);
-            startActivity(intent);
-        });
-        logout = findViewById(R.id.adminLogout);
         logout.setOnClickListener((View view) -> finish());
 
         Button shelterList = findViewById(R.id.sheltersList);

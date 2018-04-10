@@ -10,10 +10,15 @@ import com.google.firebase.database.FirebaseDatabase;
  * Homeless User class
  */
 public class HomelessUser extends User {
-    // private String _name;
-    // private String _username;
-    private static final FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private static final DatabaseReference dbRef = database.getReference().child("users");
+    private static final DatabaseReference dbRef = getDatabase();
+
+    private static DatabaseReference getDatabase() {
+        try {
+            return FirebaseDatabase.getInstance().getReference().child("users");
+        } catch (Throwable ex) {
+            return null;
+        }
+    }
 
     /**
      * Creates Homeless User

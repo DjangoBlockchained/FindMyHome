@@ -104,19 +104,6 @@ public class ClaimScreenActivity extends AppCompatActivity {
         });
     }
 
-    private void checkOut(Shelter shelter, String shelterName) {
-        if (shelter == null) { return; }
-        getShelterToCheckout(shelter).checkOut(currentUser);
-    }
-
-    private Shelter getShelterToCheckout(Shelter currentShelter) {
-        if (currentShelter.getName().equals(this.shelter.getName())) {
-            return this.shelter;
-        } else {
-            return currentShelter;
-        }
-    }
-
     private void checkIn(int beds) {
         shelter.checkIn(currentUser, beds);
         finish();
@@ -145,7 +132,7 @@ public class ClaimScreenActivity extends AppCompatActivity {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Shelter currShelter = dataSnapshot.getValue(Shelter.class);
                     if (currShelter == null) { return; }
-                    checkOut(currShelter, currShelter.getName());
+                    Shelter.checkOut(shelter, currShelter, currentUser);
                     checkIn(beds);
                     dialog.dismiss();
 

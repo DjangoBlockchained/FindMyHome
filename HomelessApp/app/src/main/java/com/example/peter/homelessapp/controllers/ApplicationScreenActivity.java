@@ -34,23 +34,12 @@ public class ApplicationScreenActivity extends AppCompatActivity {
         username = getIntent().getStringExtra("username");
         //user = (HomelessUser) getIntent().getParcelableExtra("user");
         Button logout = findViewById(R.id.logout);
-        logout.setOnClickListener((View view) -> {
-                    Intent intent = new Intent(ApplicationScreenActivity.this,
-                            WelcomeScreenActivity.class);
-                    startActivity(intent);
-                });
-        logout = findViewById(R.id.logout);
         logout.setOnClickListener((View view) -> finish());
         Button shelterList = findViewById(R.id.shelterListButton);
         shelterList.setOnClickListener((View view) -> {
-                    if (shouldReadShelters) {
-                        readShelters();
-                    }
-                    Intent intent2 = new Intent(ApplicationScreenActivity.this,
-                            ShelterListActivity.class);
-                });
-        shelterList = findViewById(R.id.shelterListButton);
-        shelterList.setOnClickListener((View view) -> {
+            if (shouldReadShelters) {
+                readShelters();
+            }
             Intent intent2
                     = new Intent(ApplicationScreenActivity.this,
                     ShelterListActivity.class);

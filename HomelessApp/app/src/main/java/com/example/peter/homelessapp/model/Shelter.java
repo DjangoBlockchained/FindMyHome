@@ -11,12 +11,11 @@ import java.util.regex.Matcher;
  */
 @SuppressWarnings("ChainedMethodCall")
 public class Shelter {
-    //private static final FirebaseDatabase shelterDatabase = getFirebaseInstance();
     private static final DatabaseReference shelterRef = getDatabaseReference();
 
     private String unique_id;
     private String name;
-    private Integer capacity;
+    private Integer capacity = 0;
     private String restrictions;
     private Double longitude;
     private Double latitude;
@@ -27,7 +26,7 @@ public class Shelter {
      * Maps user names to the number of beds they occupy.
      */
     private HashMap<String, Integer> checkedInUsers = new HashMap<>();
-    private int occupiedBeds;
+    private int occupiedBeds = 0;
 
     /**
      * Default constructor required for DataSnapshot.getValue(Shelter.class);
@@ -259,8 +258,6 @@ public class Shelter {
      * @return number of vacancies (capacity - occupied)
      */
     public int getNumberOfVacancies() {
-        android.util.Log.d("tag", "" + capacity);
-        android.util.Log.d("tag", "" + occupiedBeds);
         return capacity - occupiedBeds;
     }
 
@@ -273,19 +270,10 @@ public class Shelter {
         return getNumberOfVacancies() >= beds;
     }
 
-//    /**
-//     * Returns if the shelter has a bed vacant or not
-//     * @return true if there is a vacant bed, false otherwise
-//     */
-//    public boolean hasVacancy() {
-//        return hasVacancy(1);
-//    }
-
     /**
      * Checks a user into the shelter, taking a certain number of beds
      * @param user The user to check into the shelter
      * @param beds The number of beds the user wants to check in
-     * @return True if the check in was successful, false otherwise
      */
     public void checkIn(User user, int beds) {
         if ((!hasVacancy(beds)) || !user.checkIn(getName())) {
@@ -294,16 +282,19 @@ public class Shelter {
         String username = user.getUsername();
         checkedInUsers.put(username, beds);
         occupiedBeds += beds;
-        FirebaseDatabase.getInstance().getReference().child("users").child(username)
-                .child("currentShelter").setValue(name);
-        shelterRef.child("shelters").child(name).child("checkedInUsers").setValue(checkedInUsers);
-        shelterRef.child("shelters").child(name).child("occupiedBeds").setValue(occupiedBeds);
+        try {
+            FirebaseDatabase.getInstance().getReference().child("users").child(username)
+                    .child("currentShelter").setValue(name);
+            shelterRef.child("shelters").child(name).child("checkedInUsers").setValue(checkedInUsers);
+            shelterRef.child("shelters").child(name).child("occupiedBeds").setValue(occupiedBeds);
+        } catch (Throwable ex) {
+            ex.printStackTrace();
+        }
     }
 
     /**
      * Attempts to check out a user from the shelter
      * @param user The user attempting to check out from the shelter
-     * @return True if the user successfully checks out, false otherwise
      */
     public void checkOut(User user) {
         String username = user.getUsername();
@@ -314,10 +305,17 @@ public class Shelter {
         checkedInUsers.remove(username);
         occupiedBeds -= beds;
         user.checkOut();
-        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users");
-        userRef.child("username").child("currentShelter").setValue(null);
-        shelterRef.child("shelters").child(name).child("checkedInUsers").setValue(checkedInUsers);
-        shelterRef.child("shelters").child(name).child("occupiedBeds").setValue(occupiedBeds);
+        try {
+            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference()
+                    .child("users");
+            userRef.child("username").child("currentShelter").setValue(null);
+            shelterRef.child("shelters").child(name).child("checkedInUsers")
+                    .setValue(checkedInUsers);
+            shelterRef.child("shelters").child(name).child("occupiedBeds")
+                    .setValue(occupiedBeds);
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -361,8 +359,23 @@ public class Shelter {
         try {
             FirebaseDatabase fire =  FirebaseDatabase.getInstance();
             return fire.getReference();
-        } catch (ExceptionInInitializerError e) {
+        } catch (Throwable e) {
             return null;
+        }
+    }
+
+    /**
+     * Checks currentUser out from currentShelter, or, if currentShelter has the same name as
+     * shelter, checks currentUser out from shelter.
+     * @param shelter The shelter where the user is trying to check in.
+     * @param currentShelter The shelter where the user is currently checked in.
+     * @param currentUser The current user.
+     */
+    public static void checkOut(Shelter shelter, Shelter currentShelter, User currentUser) {
+        if (currentShelter.getName().equals(shelter.getName())) {
+            shelter.checkOut(currentUser);
+        } else {
+            currentShelter.checkOut(currentUser);
         }
     }
 }

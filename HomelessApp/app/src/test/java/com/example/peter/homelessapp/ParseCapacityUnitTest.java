@@ -28,7 +28,7 @@ public class ParseCapacityUnitTest {
 
     @Test(expected = RuntimeException.class)
     public void nonsenseStringTest2() throws Exception{
-        Shelter.parseCapacity("hello for families, asdf singles");
+        Shelter.parseCapacity("hello for families, no singles");
     }
 
     @Test
@@ -49,7 +49,7 @@ public class ParseCapacityUnitTest {
     public void familiesAndSinglesTest() throws Exception{
         assertEquals((int) Shelter.parseCapacity("0 for families, 0 singles"), 0);
         assertEquals((int) Shelter.parseCapacity("1 for families, 3 singles"), 3);
-        assertEquals((int) Shelter.parseCapacity("asdf for families, 7 singles"), 7);
+        assertEquals((int) Shelter.parseCapacity("no for families, 7 singles"), 7);
         assertEquals((int) Shelter.parseCapacity("3 for families 13 singles"), 13);
     }
 }

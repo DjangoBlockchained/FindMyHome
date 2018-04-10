@@ -37,9 +37,7 @@ public class RegisterScreenActivity extends AppCompatActivity {
         adminBox = findViewById(R.id.checkBox);
 
         Button cancel = findViewById(R.id.cancel2);
-        cancel.setOnClickListener((view) -> {
-            finish();
-        });
+        cancel.setOnClickListener((view) -> finish());
 
         Button register = findViewById(R.id.registerUser);
         register.setOnClickListener((view) -> {

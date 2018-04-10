@@ -12,7 +12,7 @@ public abstract class User {
     private String _name;
     private String _username;
     // The name of the current shelter
-    private String _currentShelter;
+    private String _currentShelter = "";
 
     /**
      * Default user constructor
