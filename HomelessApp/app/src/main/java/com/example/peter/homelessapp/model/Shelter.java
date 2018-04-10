@@ -296,10 +296,10 @@ public class Shelter {
      * Attempts to check out a user from the shelter
      * @param user The user attempting to check out from the shelter
      */
-    public void checkOut(User user) {
+    public boolean checkOut(User user) {
         String username = user.getUsername();
         if (checkedInUsers.get(username) == null) {
-            return;
+            return false;
         }
         int beds = checkedInUsers.get(username);
         checkedInUsers.remove(username);
@@ -316,6 +316,7 @@ public class Shelter {
         } catch (Throwable e) {
             e.printStackTrace();
         }
+        return true;
     }
 
     /**

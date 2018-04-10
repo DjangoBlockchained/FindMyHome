@@ -134,6 +134,7 @@ public abstract class User {
         if (null == other) { return false; }
         if (!(other instanceof User)) { return false; }
         User that = (User) other;
+        if ((this._username == null) || (that._username == null)) {return false;}
         return this._username.equals(that._username);
     }
 }

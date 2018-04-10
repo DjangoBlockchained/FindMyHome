@@ -17,7 +17,7 @@ public class checkOutTest {
         Shelter s  = new Shelter();
         s.setCapacity(1);
         s.checkIn(test,1);
-        assertTrue(s.checkOut(test));
-        assertFalse(s.checkOut(test));
+        assert(s.checkOut(test));
+        assert(!s.checkOut(test));
     }
 }
