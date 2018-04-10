@@ -33,7 +33,7 @@ public class ShelterDetailActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shelter_details);
         ListView list = findViewById(R.id.shelterdetails);
-        Button claimbutton = findViewById(R.id.claimbutton);
+        Button claimButton = findViewById(R.id.claimbutton);
         adapter = new ArrayAdapter<>(ShelterDetailActivity.this,
                 android.R.layout.simple_list_item_1, details);
         username = i.getStringExtra("username");
@@ -43,7 +43,7 @@ public class ShelterDetailActivity extends AppCompatActivity{
         DatabaseReference shelterRef = shelterRefPre.child("shelters");
         DatabaseReference nameRef = shelterRef.child(name);
 
-        claimbutton.setOnClickListener((view) -> {
+        claimButton.setOnClickListener((view) -> {
             Intent intent = new Intent(ShelterDetailActivity.this, ClaimScreenActivity.class);
             intent.putExtra("username", username);
             intent.putExtra("Shelter Name", name);

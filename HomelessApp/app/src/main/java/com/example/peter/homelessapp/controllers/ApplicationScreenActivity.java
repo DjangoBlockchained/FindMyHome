@@ -9,7 +9,6 @@ import android.widget.Button;
 
 import com.example.peter.homelessapp.R;
 
-import com.example.peter.homelessapp.model.HomelessUser;
 import com.example.peter.homelessapp.model.Shelter;
 
 
@@ -20,66 +19,78 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 
 /**
- * Created by Peter on 2/11/18.
+ * Shows the options for a signed-in HomelessUser.
  */
-
 public class ApplicationScreenActivity extends AppCompatActivity {
-    private Button logout;
     private String username;
-    //private HomelessUser user;
-    private Button shelterList;
-    private Button mapView;
+    private boolean shouldReadShelters;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_application_screen);
+        shouldReadShelters = false;
 
         username = getIntent().getStringExtra("username");
         //user = (HomelessUser) getIntent().getParcelableExtra("user");
+        Button logout = findViewById(R.id.logout);
+        logout.setOnClickListener((View view) -> {
+                    Intent intent = new Intent(ApplicationScreenActivity.this,
+                            WelcomeScreenActivity.class);
+                    startActivity(intent);
+                });
         logout = findViewById(R.id.logout);
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        logout.setOnClickListener((View view) -> finish());
+        Button shelterList = findViewById(R.id.shelterListButton);
+        shelterList.setOnClickListener((View view) -> {
+                    if (shouldReadShelters) {
+                        readShelters();
+                    }
+                    Intent intent2 = new Intent(ApplicationScreenActivity.this,
+                            ShelterListActivity.class);
+                });
         shelterList = findViewById(R.id.shelterListButton);
-        shelterList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // readShelters();
-                Intent intent2 = new Intent(ApplicationScreenActivity.this, ShelterListActivity.class);
-                intent2.putExtra("username", username);
-                startActivity(intent2);
-            }
+        shelterList.setOnClickListener((View view) -> {
+            Intent intent2
+                    = new Intent(ApplicationScreenActivity.this,
+                    ShelterListActivity.class);
+            intent2.putExtra("username", username);
+            startActivity(intent2);
         });
 
+        Button mapView = findViewById(R.id.mapViewButton);
+        mapView.setOnClickListener((View view) -> {
+            Intent intent2
+                    = new Intent(ApplicationScreenActivity.this, MapsActivity.class);
+            intent2.putExtra("username", username);
+            startActivity(intent2);
+        });
         mapView = findViewById(R.id.mapViewButton);
-        mapView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent2 = new Intent(ApplicationScreenActivity.this, MapsActivity.class);
-                intent2.putExtra("username", username);
-                startActivity(intent2);
-            }
+        mapView.setOnClickListener((View view) -> {
+            Intent intent2
+                    = new Intent(ApplicationScreenActivity.this, MapsActivity.class);
+            intent2.putExtra("username", username);
+            startActivity(intent2);
         });
     }
     private void readShelters() {
         try {
             InputStream is = getResources().openRawResource(R.raw.shelters);
-            BufferedReader br1 = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
+            BufferedReader br1 = new BufferedReader(new InputStreamReader(is,
+                    StandardCharsets.UTF_8));
             br1.readLine();
             String s = br1.readLine();
-            while ((s=br1.readLine()) != null) {
+            while (s != null) {
                 String[] tokens = s.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
                 Integer capacity = Shelter.parseCapacity(tokens[2]);
-                Shelter newShelter = new Shelter(tokens[0], tokens[1],
+                new Shelter(tokens[0], tokens[1],
                         capacity, tokens[3], Double.parseDouble(tokens[4]),
                         Double.parseDouble(tokens[5]), tokens[6], tokens[7], tokens[8]);
+                s = br1.readLine();
             }
             br1.close();
         } catch (IOException e) {
-            System.out.println("error!");
+            android.util.Log.d("", "error!");
         }
     }
 }

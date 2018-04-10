@@ -38,8 +38,6 @@ public class RegisterScreenActivity extends AppCompatActivity {
 
         Button cancel = findViewById(R.id.cancel2);
         cancel.setOnClickListener((view) -> {
-//            Intent intent = new Intent(RegisterScreenActivity.this, WelcomeScreenActivity.class);
-//            startActivity(intent);
             finish();
         });
 

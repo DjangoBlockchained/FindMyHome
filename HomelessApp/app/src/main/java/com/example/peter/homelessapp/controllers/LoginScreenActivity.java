@@ -93,12 +93,7 @@ public class LoginScreenActivity extends AppCompatActivity {
             });
         });
 
-        Button cancel = (Button) findViewById(R.id.cancel);
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        Button cancel = findViewById(R.id.cancel);
+        cancel.setOnClickListener((View view) -> finish());
     }
 }

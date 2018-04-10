@@ -75,7 +75,7 @@ public class Shelter {
         dataCapacity.setValue(capacity);
         DatabaseReference dataRestrict = specificShelter.child("restrictions");
         dataRestrict.setValue(restrictions);
-        DatabaseReference dataLongitude = specificShelter.child("longitute");
+        DatabaseReference dataLongitude = specificShelter.child("longitude");
         dataLongitude.setValue(longitude);
         DatabaseReference dataLatitude = specificShelter.child("latitude");
         dataLatitude.setValue(latitude);
@@ -287,9 +287,9 @@ public class Shelter {
      * @param beds The number of beds the user wants to check in
      * @return True if the check in was successful, false otherwise
      */
-    public boolean checkIn(User user, int beds) {
+    public void checkIn(User user, int beds) {
         if ((!hasVacancy(beds)) || !user.checkIn(getName())) {
-            return false;
+            return;
         }
         String username = user.getUsername();
         checkedInUsers.put(username, beds);
@@ -298,7 +298,6 @@ public class Shelter {
                 .child("currentShelter").setValue(name);
         shelterRef.child("shelters").child(name).child("checkedInUsers").setValue(checkedInUsers);
         shelterRef.child("shelters").child(name).child("occupiedBeds").setValue(occupiedBeds);
-        return true;
     }
 
     /**
@@ -306,10 +305,10 @@ public class Shelter {
      * @param user The user attempting to check out from the shelter
      * @return True if the user successfully checks out, false otherwise
      */
-    public boolean checkOut(User user) {
+    public void checkOut(User user) {
         String username = user.getUsername();
         if (checkedInUsers.get(username) == null) {
-            return false;
+            return;
         }
         int beds = checkedInUsers.get(username);
         checkedInUsers.remove(username);
@@ -319,7 +318,6 @@ public class Shelter {
         userRef.child("username").child("currentShelter").setValue(null);
         shelterRef.child("shelters").child(name).child("checkedInUsers").setValue(checkedInUsers);
         shelterRef.child("shelters").child(name).child("occupiedBeds").setValue(occupiedBeds);
-        return true;
     }
 
     /**

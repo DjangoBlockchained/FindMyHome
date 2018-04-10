@@ -101,7 +101,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             searchAge = "";
         }
 
-        Button search = (Button) findViewById(R.id.mapSearch);
+        Button search = findViewById(R.id.mapSearch);
         shelterRef = FirebaseDatabase.getInstance().getReference().child("shelters");
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -168,7 +168,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 if (string == null) { return; }
                 Double latitude = (Double) string.get("latitude");
                 Double longitude = (Double) string.get("longitude");
-                if (latitude == null || longitude == null) { return; }
+                if ((latitude == null) || (longitude == null)) { return; }
                 String name = string.get("name").toString();
                 LatLng location = new LatLng(latitude, longitude);
                 mMap.addMarker(new MarkerOptions().position(location).title(name));
