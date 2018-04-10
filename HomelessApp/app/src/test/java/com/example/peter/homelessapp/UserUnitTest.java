@@ -65,4 +65,15 @@ public class UserUnitTest {
         assertFalse((a.equals(x)));
     }
 
+    /**
+     * Sanjana Raman's JUnit Test
+     */
+    @Test
+    public void testCheckIn() {
+        HomelessUser user = new HomelessUser();
+        assertTrue("".equals(user.getCurrentShelter()));
+        assertTrue(user.checkIn("SwagVille"));
+        assertTrue("SwagVille".equals(user.getCurrentShelter()));
+        assertFalse(user.checkIn("YourMomsHouse"));
+    }
 }

@@ -107,7 +107,7 @@ public abstract class User {
         _currentShelter = "";
     }
 
-    boolean checkIn(String currentShelter) {
+    public boolean checkIn(String currentShelter) {
         if (!"".equals(_currentShelter)) { return false; }
         _currentShelter = currentShelter;
         return true;
