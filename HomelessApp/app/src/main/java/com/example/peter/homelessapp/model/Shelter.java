@@ -266,8 +266,8 @@ public class Shelter {
      * @param beds number of desired vacant beds
      * @return true if there are enough beds vacant, false otherwise
      */
-    public boolean hasVacancy(int beds) {
-        return getNumberOfVacancies() >= beds;
+    public boolean isOccupied(int beds) {
+        return getNumberOfVacancies() < beds;
     }
 
     /**
@@ -276,7 +276,7 @@ public class Shelter {
      * @param beds The number of beds the user wants to check in
      */
     public void checkIn(User user, int beds) {
-        if ((!hasVacancy(beds)) || !user.checkIn(getName())) {
+        if ((isOccupied(beds)) || !user.checkIn(getName())) {
             return;
         }
         String username = user.getUsername();
@@ -295,6 +295,7 @@ public class Shelter {
     /**
      * Attempts to check out a user from the shelter
      * @param user The user attempting to check out from the shelter
+     * @return true if the user was checked out, otherwise false.
      */
     public boolean checkOut(User user) {
         String username = user.getUsername();

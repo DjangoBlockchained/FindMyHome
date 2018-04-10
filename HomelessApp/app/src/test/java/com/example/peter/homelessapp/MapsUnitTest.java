@@ -17,13 +17,13 @@ public class MapsUnitTest {
         String g0 = "Any";
 
         Map s0 = makeShelter("Men");
-        assert(MapsActivity.genderMatches(s0, g0));
+        assertTrue(MapsActivity.genderMatches(s0, g0));
 
         Map s1 = makeShelter("Women");
-        assert(MapsActivity.genderMatches(s1, g0));
+        assertTrue(MapsActivity.genderMatches(s1, g0));
 
         Map s2 = makeShelter("Anyone");
-        assert(MapsActivity.genderMatches(s2, g0));
+        assertTrue(MapsActivity.genderMatches(s2, g0));
 
         Map s3 = makeShelter("");
         assertFalse(MapsActivity.genderMatches(s3, g0));
@@ -32,22 +32,22 @@ public class MapsUnitTest {
         String g1 = "";
 
         Map s4 = makeShelter("");
-        assert(MapsActivity.genderMatches(s4, g1));
+        assertTrue(MapsActivity.genderMatches(s4, g1));
 
         Map s5 = makeShelter("Women");
-        assert(MapsActivity.genderMatches(s5, g1));
+        assertTrue(MapsActivity.genderMatches(s5, g1));
 
 
         String g2 = "Women";
 
         Map s6 = makeShelter("Women");
-        assert(MapsActivity.genderMatches(s6, g2));
+        assertTrue(MapsActivity.genderMatches(s6, g2));
 
         Map s7 = makeShelter("");
         assertFalse(MapsActivity.genderMatches(s7, g2));
 
         Map s8 = makeShelter("Anyone");
-        assert(MapsActivity.genderMatches(s8, g2));
+        assertTrue(MapsActivity.genderMatches(s8, g2));
     }
 
     private Map makeShelter(String restrictions) {

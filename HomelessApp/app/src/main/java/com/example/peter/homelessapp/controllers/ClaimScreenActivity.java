@@ -55,7 +55,7 @@ public class ClaimScreenActivity extends AppCompatActivity {
         claimButton.setOnClickListener((view) -> {
             int beds = np.getValue();
 
-            if (!shelter.hasVacancy(beds)) {
+            if (shelter.isOccupied(beds)) {
                 showNotEnoughBedsAlert();
             }
 
