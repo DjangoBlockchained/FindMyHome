@@ -11,8 +11,8 @@ import java.util.regex.Matcher;
  */
 @SuppressWarnings("ChainedMethodCall")
 public class Shelter {
-    private static final FirebaseDatabase shelterDatabase = FirebaseDatabase.getInstance();
-    private static final DatabaseReference shelterRef = shelterDatabase.getReference();
+    //private static final FirebaseDatabase shelterDatabase = getFirebaseInstance();
+    private static final DatabaseReference shelterRef = getDatabaseReference();
 
     private String unique_id;
     private String name;
@@ -327,6 +327,10 @@ public class Shelter {
      *         b is returned as an integer.
      */
     public static Integer parseCapacity(String s) {
+        if (s == null) {
+            throw new NullPointerException("parseCapacity method can't parse a null" +
+                    " capacity String\n");
+        }
         if (s.isEmpty()) {
             return 0;
         }
@@ -343,9 +347,22 @@ public class Shelter {
                 substring = s;
             }
             String[] tokens = substring.split(" ");
-            capacity = Integer.parseInt(tokens[0]);
+            try {
+                capacity = Integer.parseInt(tokens[0]);
+            } catch (NumberFormatException e) {
+                throw new RuntimeException("Input capacity didn't have integer format");
+            }
         }
-        android.util.Log.d("tag", "parseCapacity: " + s + ", " + capacity);
+        //android.util.Log.d("tag", "parseCapacity: " + s + ", " + capacity);
         return capacity;
+    }
+
+    private static DatabaseReference getDatabaseReference() {
+        try {
+            FirebaseDatabase fire =  FirebaseDatabase.getInstance();
+            return fire.getReference();
+        } catch (ExceptionInInitializerError e) {
+            return null;
+        }
     }
 }

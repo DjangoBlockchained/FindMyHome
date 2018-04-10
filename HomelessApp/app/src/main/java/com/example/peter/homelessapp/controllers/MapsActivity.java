@@ -228,22 +228,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
     }
 
-    private boolean matchesSearch(Map data, String name, CharSequence gender, CharSequence age) {
+    public static boolean matchesSearch(Map data, String name, CharSequence gender, CharSequence age) {
         String restriction = data.get("restrictions").toString();
         String databaseName = data.get("name").toString();
         boolean nameMatches = databaseName.toLowerCase().contains(name.toLowerCase());
         boolean ageMatches = (restriction.contains(age)) || (restriction.contains("Anyone"));
+        boolean genderMatches = genderMatches(data, gender);
+        return nameMatches && ageMatches && genderMatches;
+    }
+
+    public static boolean genderMatches(Map data, CharSequence gender) {
         boolean genderMatches;
+        String restriction = data.get("restrictions").toString();
         if ("Any".equals(gender)) {
             genderMatches = restriction.contains("Men")
                     || restriction.contains("Women")
                     || restriction.contains("Anyone");
         } else {
             genderMatches = "".equals(gender)
-                    || !restriction.contains(gender)
+                    || restriction.contains(gender)
                     || restriction.contains("Anyone");
         }
-        return nameMatches && ageMatches && genderMatches;
+        return genderMatches;
     }
 
     private void addMarker(Map data) {
