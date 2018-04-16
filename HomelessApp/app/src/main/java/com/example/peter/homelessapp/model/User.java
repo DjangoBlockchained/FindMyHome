@@ -107,6 +107,11 @@ public abstract class User {
         _currentShelter = "";
     }
 
+    /**
+     * Sets the User's current shelter if currentShelter is the empty string.
+     * @param currentShelter The new current shelter.
+     * @return true if the user was checked in, otherwise false
+     */
     public boolean checkIn(String currentShelter) {
         if (!"".equals(_currentShelter)) { return false; }
         _currentShelter = currentShelter;
@@ -134,7 +139,7 @@ public abstract class User {
         if (null == other) { return false; }
         if (!(other instanceof User)) { return false; }
         User that = (User) other;
-        if ((this._username == null) || (that._username == null)) {return false;}
-        return this._username.equals(that._username);
+        return !((this._username == null) || (that._username == null))
+                && this._username.equals(that._username);
     }
 }

@@ -55,7 +55,7 @@ public class SearchScreenActivity extends AppCompatActivity {
             intent.putExtra("gender", genderGroup.getCheckedRadioButtonId());
             intent.putExtra("age", ageGroup.getCheckedRadioButtonId());
             startActivity(intent);
-            finish();
+            // finish();
         });
     }
     private void loadSearchAge() {

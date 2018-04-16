@@ -65,7 +65,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             intent.putExtra("name", searchName);
             intent.putExtra("gender", searchGender);
             intent.putExtra("age", searchAge);
-            intent.putExtra("fromMap", "true");
+            intent.putExtra("fromClass", getClass().getName());
             startActivity(intent);
         });
     }
@@ -167,7 +167,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Map string = (Map)dataSnapshot.getValue();
                 if (string == null) { return; }
                 Double latitude = (Double) string.get("latitude");
-                Double longitude = (Double) string.get("longitude");
+                Double longitude = (Double) string.get("longitute");
                 if ((latitude == null) || (longitude == null)) { return; }
                 String name = string.get("name").toString();
                 LatLng location = new LatLng(latitude, longitude);
@@ -261,8 +261,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void addMarker(Map data) {
         String name = (String) data.get("name");
-        double latitude = (double) data.get("latitude");
-        double longitude = (double) data.get("longitude");
+        Double latitude = (Double) data.get("latitude");
+        Double longitude = (Double) data.get("longitute");
+        if ((null == latitude) || (null == longitude)) { return; }
         LatLng location = new LatLng(latitude, longitude);
         mMap.addMarker(new MarkerOptions().position(location).title(name));
     }

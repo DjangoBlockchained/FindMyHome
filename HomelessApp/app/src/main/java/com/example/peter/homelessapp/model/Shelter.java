@@ -285,7 +285,8 @@ public class Shelter {
         try {
             FirebaseDatabase.getInstance().getReference().child("users").child(username)
                     .child("currentShelter").setValue(name);
-            shelterRef.child("shelters").child(name).child("checkedInUsers").setValue(checkedInUsers);
+            shelterRef.child("shelters").child(name).child("checkedInUsers")
+                    .setValue(checkedInUsers);
             shelterRef.child("shelters").child(name).child("occupiedBeds").setValue(occupiedBeds);
         } catch (Throwable ex) {
             ex.printStackTrace();
